@@ -6,20 +6,24 @@
       name="viewport"
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
-    <title>A quais benefícios sociais tenho direito? | Meus Benefícios</title>
+    <title>Quais benefícios do governo eu tenho direito? | Meus Benefícios</title>
     <meta
       name="description"
-      content="Responda 10 perguntas rápidas e veja se você pode ter direito a Bolsa Família, BPC, Tarifa Social de luz, Gás do Povo, Pé-de-Meia e mais. Grátis e sem cadastro."
+      content="Descubra em 1 minuto se você tem direito a Bolsa Família, BPC, Tarifa Social de luz, Gás do Povo, Pé-de-Meia, Farmácia Popular e mais. Grátis e sem CPF."
     />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
-    <link rel="canonical" href="https://betoharres.github.io/meudireito/" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <link rel="alternate" hreflang="pt-BR" href="https://flourishing-brioche-2e5064.netlify.app/" />
+    <link rel="canonical" href="https://flourishing-brioche-2e5064.netlify.app/" />
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="pt_BR" />
     <meta property="og:site_name" content="Meus Benefícios" />
     <meta
       property="og:title"
-      content="A quais benefícios sociais você tem direito?"
+      content="Quais benefícios do governo você tem direito?"
     />
     <meta
       property="og:description"
@@ -27,12 +31,13 @@
     />
     <meta
       property="og:url"
-      content="https://betoharres.github.io/meudireito/"
+      content="https://flourishing-brioche-2e5064.netlify.app/"
     />
     <meta
       property="og:image"
-      content="https://betoharres.github.io/meudireito/og-image.png"
+      content="https://flourishing-brioche-2e5064.netlify.app/og-image.png"
     />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta
@@ -42,7 +47,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:title"
-      content="A quais benefícios sociais você tem direito?"
+      content="Quais benefícios do governo você tem direito?"
     />
     <meta
       name="twitter:description"
@@ -50,7 +55,7 @@
     />
     <meta
       name="twitter:image"
-      content="https://betoharres.github.io/meudireito/og-image.png"
+      content="https://flourishing-brioche-2e5064.netlify.app/og-image.png"
     />
 
     <!-- "only light" also stops browsers from force-darkening the page. -->
@@ -61,18 +66,95 @@
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     <link rel="stylesheet" href="styles.css" />
     <script src="app.js" defer></script>
+    <!-- Keep in sync with the visible content: program cards and FAQ. -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "Meus Benefícios",
-        "url": "https://betoharres.github.io/meudireito/",
-        "description": "Site independente que ajuda a descobrir a quais programas sociais você provavelmente tem direito, como Bolsa Família, BPC, Tarifa Social de luz, Gás do Povo e Pé-de-Meia.",
-        "inLanguage": "pt-BR",
-        "applicationCategory": "UtilitiesApplication",
-        "operatingSystem": "Any",
-        "isAccessibleForFree": true,
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" }
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://flourishing-brioche-2e5064.netlify.app/#site",
+            "name": "Meus Benefícios",
+            "url": "https://flourishing-brioche-2e5064.netlify.app/",
+            "inLanguage": "pt-BR"
+          },
+          {
+            "@type": "WebApplication",
+            "@id": "https://flourishing-brioche-2e5064.netlify.app/#app",
+            "name": "Meus Benefícios",
+            "url": "https://flourishing-brioche-2e5064.netlify.app/",
+            "isPartOf": {
+              "@id": "https://flourishing-brioche-2e5064.netlify.app/#site"
+            },
+            "description": "Site independente e gratuito que mostra a quais benefícios sociais do governo federal você provavelmente tem direito, quanto pode ganhar e como pedir.",
+            "inLanguage": "pt-BR",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "Any",
+            "isAccessibleForFree": true,
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "BRL"
+            },
+            "featureList": [
+              "Cadastro Único (CadÚnico)",
+              "Bolsa Família",
+              "Tarifa Social de luz",
+              "Desconto Social de luz",
+              "Gás do Povo",
+              "Pé-de-Meia",
+              "BPC (Benefício de Prestação Continuada)",
+              "Seguro-desemprego",
+              "Isenção de taxa em concursos",
+              "Farmácia Popular",
+              "Carteira da Pessoa Idosa",
+              "ID Jovem",
+              "Minha Casa, Minha Vida",
+              "ProUni",
+              "Abono salarial (PIS/Pasep)",
+              "Pix MEI",
+              "Desenrola (famílias)"
+            ]
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://flourishing-brioche-2e5064.netlify.app/#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "O site é do governo?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Não. É um site independente, que só orienta. Quem decide é o órgão responsável por cada programa, como o CRAS e o INSS."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Preciso informar CPF ou meu nome?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Não. O site não pede documentos e não guarda nem envia suas respostas: elas ficam só no seu celular."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "O resultado garante o benefício?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Não. Ele mostra a quais programas você provavelmente tem direito e como pedir. Confirme sempre no CRAS ou nos canais oficiais."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Os valores mostrados são exatos?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Não. São estimativas por baixo. O valor real depende da sua família, da sua cidade e da sua conta de luz."
+                }
+              }
+            ]
+          }
+        ]
       }
     </script>
   </head>
@@ -101,7 +183,6 @@
     </header>
 
     <main id="tela">
-      <!-- Static on purpose: search engines read this without running JavaScript. app.js shows it again on #inicio. -->
       <section class="intro" id="inicio">
         <!-- Static on purpose: search engines read this without running JavaScript. app.js shows it again on #inicio. -->
         <div class="hero">
@@ -141,7 +222,7 @@
         <div class="more" id="saiba-mais">
           <section aria-labelledby="programs-title">
             <h2 id="programs-title" class="reveal">
-              Programas que o site verifica
+              Benefícios sociais que o site verifica
             </h2>
             <p class="section-lead reveal">
               Veja o que cada um oferece. No final das perguntas, você descobre

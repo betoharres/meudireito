@@ -1,0 +1,8 @@
+# Netlify headers.
+# The rules file is data for the app, not a page: keep it out of search results.
+/regras.json
+  X-Robots-Tag: noindex
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
