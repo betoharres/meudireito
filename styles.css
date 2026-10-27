@@ -1,0 +1,731 @@
+/* Meus Benefícios. Light theme only. Sizes follow Apple's Dynamic Type defaults; 2.75rem = 44 pt touch target. */
+
+:root {
+  color-scheme: only light;
+  --color-bg: #f2f2f7;
+  --color-bg-clear: rgb(242 242 247 / 0);
+  --color-surface: #ffffff;
+  --color-text: #1c1c1e;
+  --color-muted: #5c5c61;
+  --color-separator: #d1d1d6;
+  --color-control: #8a8a8e;
+  --color-fill: #e5e5ea;
+  --color-accent: #0b6e64;
+  --color-accent-pressed: #08544c;
+  --color-accent-tint: #e2f1ee;
+  --color-on-accent: #ffffff;
+  --color-yes: #1d7a35;
+  --color-yes-tint: #e4f3e8;
+  --color-maybe: #9c4700;
+  --color-maybe-tint: #fdf0e1;
+  --color-no: #5c5c61;
+  --color-no-tint: #ebebf0;
+  --shadow-card: 0 1px 3px rgb(0 0 0 / 0.08);
+
+  /* Mascot: an original parrot, flat and round. The scarf uses the site's accent. */
+  --color-mascot-skin: #4cc23a;
+  --color-mascot-dark: #2f9e3a;
+  --color-mascot-face: #7fd651;
+  --color-mascot-beak: #ff9f1c;
+  --color-mascot-beak-dark: #d96f00;
+  --color-mascot-beak-shine: #ffc766;
+  --color-mascot-eye: #ffffff;
+  --color-mascot-pupil: #2b2b2b;
+  --color-mascot-cheek: rgb(255 138 122 / 0.6);
+  --color-mascot-tail-1: #14a39a;
+  --color-mascot-tail-2: #ff5a4e;
+  --color-mascot-tail-3: #ffb020;
+  --color-mascot-shadow: rgb(0 0 0 / 0.12);
+  --color-mascot-hat: #f4c96b;
+  --color-mascot-hat-brim: #e9b850;
+  --color-mascot-shirt: #ffffff;
+  --color-mascot-stripe: #ff5a4e;
+
+  /* Intro background and program illustrations. */
+  --color-hero-1: #d5f4ea;
+  --color-hero-2: #eef8f3;
+  --color-hero-3: #fff1df;
+  --color-tile-mint: #e2f1ee;
+  --color-tile-leaf: #e4f3e8;
+  --color-tile-sun: #fff3cc;
+  --color-tile-peach: #ffe6dc;
+  --color-tile-lilac: #ece8fb;
+  --color-art-paper: #ffffff;
+  --color-art-ink: #1c1c1e;
+  --color-art-gray: #8a8a8e;
+  --color-art-teal: #0b6e64;
+  --color-art-teal-soft: #8fd3c8;
+  --color-art-green: #2f9e3a;
+  --color-art-yellow: #ffc83d;
+  --color-art-orange: #ff9f1c;
+  --color-art-red: #ff5a4e;
+  --color-art-purple: #7b61d1;
+  --color-art-purple-soft: #c4b6f2;
+  --color-art-brown: #b5763f;
+  --color-art-brown-dark: #8c5a2e;
+  --shadow-sheet: 0 -6px 24px rgb(0 0 0 / 0.06);
+
+  --font-body: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --text-subheadline: 0.9375rem;
+  --text-body: 1.0625rem;
+  --text-title3: 1.25rem;
+  --text-title2: 1.375rem;
+  --text-title1: 1.75rem;
+  --text-large-title: 2.125rem;
+  --text-hero: 2.75rem;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --radius-card: 1rem;
+  --radius-button: 0.875rem;
+  --radius-pill: 999px;
+  --border: 2px;
+  --border-raised: 4px;
+  --focus-ring: 3px;
+  --touch: 2.75rem;
+  --option-height: 3.5rem;
+  --tile-height: 4rem;
+  --button-height: 3.25rem;
+  --icon: 1.5rem;
+  --icon-sm: 1rem;
+  --status-icon: 1.75rem;
+  --progress-height: 0.625rem;
+  --content-width: 34rem;
+  --cta-space: 6.5rem;
+  --mascot-size: 5.5rem;
+  --mascot-size-large: 7.5rem;
+  --mascot-size-hero: 9.5rem;
+  --radius-sheet: 1.75rem;
+  --program-art: 4rem;
+  /* The chosen option grows a little; tiles are smaller, so they grow a bit more. */
+  --scale-selected: 1.024;
+  --scale-selected-tile: 1.056;
+  --scale-option-pressed: 0.968;
+
+  --duration-press: 100ms;
+  --duration-bounce: 420ms;
+  --duration-pop: 380ms;
+  --duration-screen: 260ms;
+  --duration-hop: 650ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Overshoots a little before settling: the "bounce" when a button is released. */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html {
+  /* Keeps a focused option from hiding under the sticky Continuar button. */
+  scroll-padding-bottom: var(--cta-space);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: 1.5;
+  overflow-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* The gradient runs down the whole intro page, behind the sheet and the FAQ, to the very end. */
+body.is-intro {
+  background: linear-gradient(170deg, var(--color-hero-1) 0%, var(--color-hero-2) 45%, var(--color-hero-3) 100%) no-repeat;
+  background-size: 100% 100%;
+}
+
+.top, main, .bottom {
+  width: 100%;
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding-left: max(var(--space-4), env(safe-area-inset-left));
+  padding-right: max(var(--space-4), env(safe-area-inset-right));
+}
+
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  padding-top: max(var(--space-3), env(safe-area-inset-top));
+  padding-bottom: var(--space-2);
+}
+.brand { margin: 0; font-family: var(--font-display); font-size: var(--text-title3); font-weight: 700; letter-spacing: -0.01em; }
+.privacy {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin: 0;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-button);
+  background: var(--color-accent-tint);
+  color: var(--color-accent-pressed);
+  font-size: var(--text-subheadline);
+  font-weight: 600;
+}
+.privacy svg { flex: none; width: var(--icon-sm); height: var(--icon-sm); }
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  /* Clips the sideways screen transition without breaking the sticky button. The chosen option at its
+     largest (selected scale x pop) still fits inside main's side padding, so it is never cut. */
+  overflow-x: clip;
+}
+
+h1 {
+  margin: var(--space-1) 0 var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--text-title1);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+[tabindex="-1"]:focus { outline: none; }
+
+/* ---------- Mascot and speech bubble ---------- */
+
+.speech { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-4); margin-top: var(--space-3); }
+/* The slot keeps the mascot's space before app.js draws it, so nothing jumps. */
+.mascot-slot { flex: none; display: block; width: var(--mascot-size); aspect-ratio: 124 / 138; }
+.mascot-slot-large { width: var(--mascot-size-large); }
+.bubble {
+  position: relative;
+  flex: 1 1 11rem;
+  min-width: 0;
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border: var(--border) solid var(--color-separator);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+.bubble::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: var(--space-3);
+  height: var(--space-3);
+  border-bottom: var(--border) solid var(--color-separator);
+  border-left: var(--border) solid var(--color-separator);
+  background: var(--color-surface);
+  transform: translate(-60%, -50%) rotate(45deg);
+}
+.bubble h1 { margin: 0; font-size: var(--text-title3); line-height: 1.3; letter-spacing: -0.01em; }
+p.bubble { font-weight: 600; }
+
+.mascot { display: block; width: 100%; height: 100%; overflow: visible; }
+.mascot-shadow { fill: var(--color-mascot-shadow); }
+.mascot-skin { fill: var(--color-mascot-skin); }
+.mascot-crest path, .mascot-wing { fill: var(--color-mascot-dark); }
+.mascot-face { fill: var(--color-mascot-face); }
+.mascot-shirt-base { fill: var(--color-mascot-shirt); }
+.mascot-shirt-stripe { fill: var(--color-mascot-stripe); }
+.mascot-hat-crown { fill: var(--color-mascot-hat); }
+.mascot-hat-brim { fill: var(--color-mascot-hat-brim); }
+.mascot-hat-band { fill: var(--color-accent); }
+.mascot-scarf { fill: var(--color-accent); }
+.mascot-eye { fill: var(--color-mascot-eye); }
+.mascot-pupil { fill: var(--color-mascot-pupil); }
+.mascot-eyes-happy path { fill: none; stroke: var(--color-mascot-pupil); stroke-width: 4; stroke-linecap: round; }
+.mascot-cheek { fill: var(--color-mascot-cheek); }
+.mascot-beak, .mascot-foot { fill: var(--color-mascot-beak); }
+.mascot-beak-lower { fill: var(--color-mascot-beak-dark); }
+.mascot-beak-shine { fill: none; stroke: var(--color-mascot-beak-shine); stroke-width: 2.5; stroke-linecap: round; }
+.mascot-tail-1 { fill: var(--color-mascot-tail-1); }
+.mascot-tail-2 { fill: var(--color-mascot-tail-2); }
+.mascot-tail-3 { fill: var(--color-mascot-tail-3); }
+
+.mascot-eyes-happy { display: none; }
+.mascot.is-happy .mascot-eyes-open { display: none; }
+.mascot.is-happy .mascot-eyes-happy { display: inline; }
+
+.mascot-body, .mascot-shadow, .mascot-wing, .mascot-eyes, .mascot-hat { transform-box: fill-box; }
+.mascot-hat { transform-origin: 50% 100%; }
+.mascot-body { transform-origin: 50% 100%; animation: mascot-breathe 3.2s ease-in-out infinite; }
+.mascot-shadow { transform-origin: 50% 50%; }
+.mascot-wing-left { transform-origin: 85% 12%; }
+.mascot-wing-right { transform-origin: 15% 12%; }
+.mascot-eyes { transform-origin: 50% 50%; animation: mascot-blink 4.5s ease-in-out infinite; }
+
+/* Every step forward: squash, jump, flap, land. Breathing resumes after the jump. */
+.mascot.is-hopping .mascot-body { animation: mascot-hop var(--duration-hop) var(--ease-out) 80ms, mascot-breathe 3.2s ease-in-out 730ms infinite; }
+.mascot.is-hopping .mascot-shadow { animation: mascot-shadow-hop var(--duration-hop) var(--ease-out) 80ms; }
+.mascot.is-hopping .mascot-wing-left { animation: mascot-flap-left var(--duration-hop) ease-in-out 80ms; }
+.mascot.is-hopping .mascot-wing-right { animation: mascot-flap-right var(--duration-hop) ease-in-out 80ms; }
+
+/* Results: two jumps. */
+.mascot.is-celebrating .mascot-body { animation: mascot-hop var(--duration-hop) var(--ease-out) 80ms 2, mascot-breathe 3.2s ease-in-out 1.4s infinite; }
+.mascot.is-celebrating .mascot-shadow { animation: mascot-shadow-hop var(--duration-hop) var(--ease-out) 80ms 2; }
+.mascot.is-celebrating .mascot-wing-left { animation: mascot-flap-left var(--duration-hop) ease-in-out 80ms 2; }
+.mascot.is-celebrating .mascot-wing-right { animation: mascot-flap-right var(--duration-hop) ease-in-out 80ms 2; }
+
+/* The hat lags a little behind the jump, then lands. */
+.mascot.is-hopping .mascot-hat { animation: mascot-hat-hop var(--duration-hop) var(--ease-out) 140ms; }
+.mascot.is-celebrating .mascot-hat { animation: mascot-hat-hop var(--duration-hop) var(--ease-out) 140ms 2; }
+
+/* Intro: waves hello and tips the hat. */
+.mascot.is-waving .mascot-wing-right { animation: mascot-wave 1.4s ease-in-out 300ms; }
+.mascot.is-waving .mascot-hat { animation: mascot-hat-tip 1.4s ease-in-out 300ms; }
+
+@keyframes mascot-breathe { 0%, 100% { transform: scale(1, 1); } 50% { transform: scale(1.015, 0.985); } }
+@keyframes mascot-blink { 0%, 94%, 100% { transform: scaleY(1); } 97% { transform: scaleY(0.1); } }
+@keyframes mascot-hop {
+  0% { transform: translateY(0) scale(1, 1); }
+  18% { transform: translateY(0) scale(1.1, 0.88); }
+  45% { transform: translateY(-22%) scale(0.94, 1.08); }
+  70% { transform: translateY(0) scale(1.08, 0.92); }
+  85% { transform: translateY(0) scale(0.98, 1.03); }
+  100% { transform: translateY(0) scale(1, 1); }
+}
+@keyframes mascot-shadow-hop { 0%, 100% { transform: scale(1); opacity: 1; } 45% { transform: scale(0.6); opacity: 0.5; } }
+@keyframes mascot-flap-left { 0%, 100% { transform: rotate(0); } 20%, 60% { transform: rotate(40deg); } 40%, 80% { transform: rotate(-6deg); } }
+@keyframes mascot-flap-right { 0%, 100% { transform: rotate(0); } 20%, 60% { transform: rotate(-40deg); } 40%, 80% { transform: rotate(6deg); } }
+@keyframes mascot-hat-hop { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-20%) rotate(-6deg); } 75% { transform: translateY(4%) rotate(2deg); } }
+@keyframes mascot-hat-tip { 0%, 100% { transform: translateY(0) rotate(0); } 25%, 70% { transform: translateY(-22%) rotate(-12deg); } }
+@keyframes mascot-wave { 0%, 100% { transform: rotate(0); } 20%, 50%, 80% { transform: rotate(-120deg); } 35%, 65% { transform: rotate(-85deg); } }
+
+/* ---------- Intro ---------- */
+
+/* First screen: only the essentials. A little of the sheet below peeks out to invite scrolling. */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  min-height: calc(100svh - 8rem);
+  padding: var(--space-4) 0 var(--space-3);
+  text-align: center;
+}
+.mascot-slot-hero { width: var(--mascot-size-hero); }
+.hero h1 { max-width: 18ch; margin: var(--space-2) 0 0; font-size: var(--text-large-title); line-height: 1.15; }
+.hero-lead { max-width: 30ch; margin: 0; color: var(--color-muted); font-size: var(--text-title3); line-height: 1.4; }
+.hero-start { max-width: 20rem; margin-top: var(--space-3); }
+.hero-facts { margin: 0; color: var(--color-muted); font-size: var(--text-subheadline); font-weight: 600; }
+.scroll-hint {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--touch);
+  margin-top: auto;
+  padding: var(--space-2) var(--space-4) 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-accent-pressed);
+  font: inherit;
+  font-size: var(--text-subheadline);
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.scroll-hint svg { width: var(--icon); height: var(--icon); animation: nudge-down 1.6s ease-in-out infinite; }
+@keyframes nudge-down { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(0.3rem); } }
+
+/* Second screen: a sheet that rises over the gradient. */
+.more {
+  margin: 0 calc(-1 * var(--space-4));
+  padding: var(--space-8) var(--space-4);
+  border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sheet);
+}
+.more h2, .faq h2 { margin: 0 0 var(--space-2); font-family: var(--font-display); font-size: var(--text-title1); line-height: 1.2; letter-spacing: -0.015em; }
+.more section + section { margin-top: var(--space-8); }
+.section-lead { margin: 0 0 var(--space-5); color: var(--color-muted); }
+
+.program-cards { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-3); margin: 0; padding: 0; list-style: none; }
+.program-card { display: flex; align-items: flex-start; gap: var(--space-4); padding: var(--space-4); border-radius: var(--radius-card); background: var(--color-bg); }
+.program-card h3 { margin: 0; font-size: var(--text-body); line-height: 1.3; }
+.program-card p { margin: var(--space-1) 0 0; color: var(--color-muted); }
+.program-art { flex: none; display: grid; place-items: center; width: var(--program-art); height: var(--program-art); border-radius: var(--radius-card); }
+.program-art svg { width: 75%; height: 75%; }
+.tile-mint { background: var(--color-tile-mint); }
+.tile-leaf { background: var(--color-tile-leaf); }
+.tile-sun { background: var(--color-tile-sun); }
+.tile-peach { background: var(--color-tile-peach); }
+.tile-lilac { background: var(--color-tile-lilac); }
+
+/* Line classes come first, so a fill class on the same shape wins over their "fill: none". */
+.a-line, .a-line-orange, .a-line-paper, .a-line-red, .a-line-purple, .a-line-brown { fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.a-line { stroke: var(--color-art-teal); }
+.a-line-orange { stroke: var(--color-art-orange); }
+.a-line-paper { stroke: var(--color-art-paper); }
+.a-line-red { stroke: var(--color-art-red); }
+.a-line-purple { stroke: var(--color-art-purple); }
+.a-line-brown { stroke: var(--color-art-brown-dark); stroke-width: 3; }
+.a-thick { stroke-width: 4; }
+.a-paper { fill: var(--color-art-paper); }
+.a-ink { fill: var(--color-art-ink); }
+.a-gray { fill: var(--color-art-gray); }
+.a-teal { fill: var(--color-art-teal); }
+.a-teal-soft { fill: var(--color-art-teal-soft); }
+.a-green { fill: var(--color-art-green); }
+.a-yellow { fill: var(--color-art-yellow); }
+.a-orange { fill: var(--color-art-orange); }
+.a-red { fill: var(--color-art-red); }
+.a-purple { fill: var(--color-art-purple); }
+.a-purple-soft { fill: var(--color-art-purple-soft); }
+.a-brown { fill: var(--color-art-brown); }
+.a-brown-dark { fill: var(--color-art-brown-dark); }
+
+.how-steps { display: grid; gap: var(--space-3); margin: var(--space-4) 0 0; padding: 0; list-style: none; counter-reset: step; }
+.how-steps li { display: flex; align-items: flex-start; gap: var(--space-3); counter-increment: step; }
+.how-steps li::before {
+  content: counter(step);
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--touch);
+  height: var(--touch);
+  border-radius: 50%;
+  background: var(--color-accent-tint);
+  color: var(--color-accent-pressed);
+  font-family: var(--font-display);
+  font-size: var(--text-title3);
+  font-weight: 800;
+}
+
+.more-cta { margin-top: var(--space-8); padding: var(--space-5) var(--space-4); border-radius: var(--radius-card); background: var(--color-accent-tint); text-align: center; }
+.more-cta p { margin: 0 0 var(--space-3); font-family: var(--font-display); font-size: var(--text-title3); font-weight: 700; }
+
+/* FAQ: its own section at the end of the page, on the plain background. */
+.faq { padding: var(--space-8) 0; }
+.faq details { margin-top: var(--space-2); padding: 0 var(--space-4); border-radius: var(--radius-card); background: var(--color-surface); box-shadow: var(--shadow-card); }
+.faq summary { display: flex; align-items: center; min-height: var(--touch); padding: var(--space-3) 0; font-weight: 600; cursor: pointer; }
+.faq details p { margin: 0; padding-bottom: var(--space-4); color: var(--color-muted); }
+
+/* Revealed while scrolling. Only with JavaScript, so the content is always visible without it. */
+.js .reveal { opacity: 0; transform: translateY(1.5rem); transition: opacity 500ms ease-out, transform 600ms var(--ease-out); }
+.js .reveal.is-visible { opacity: 1; transform: none; }
+
+/* ---------- Question ---------- */
+
+.question { flex: 1; display: flex; flex-direction: column; }
+
+.nav { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); min-height: var(--touch); margin-top: var(--space-2); }
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: var(--touch);
+  min-height: var(--touch);
+  margin-left: calc(-1 * var(--space-2));
+  padding: 0 var(--space-2);
+  border: 0;
+  border-radius: var(--radius-button);
+  background: transparent;
+  color: var(--color-accent);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform var(--duration-bounce) var(--ease-spring);
+}
+.back svg { flex: none; width: var(--icon); height: var(--icon); }
+.invisible { visibility: hidden; }
+
+/* Moves to its own line when large text leaves it too little room. */
+progress {
+  flex: 1 1 8rem;
+  min-width: 0;
+  height: var(--progress-height);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-fill);
+  overflow: hidden;
+  appearance: none;
+}
+progress::-webkit-progress-bar { background: var(--color-fill); }
+progress::-webkit-progress-value { border-radius: var(--radius-pill); background: var(--color-accent); }
+progress::-moz-progress-bar { border-radius: var(--radius-pill); background: var(--color-accent); }
+
+.progress-text { margin: var(--space-4) 0 0; color: var(--color-muted); font-size: var(--text-subheadline); font-weight: 600; }
+.help { margin: var(--space-3) 0 0; color: var(--color-muted); }
+
+.options {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+  min-width: 0;
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  border: 0;
+}
+.options-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+.option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--option-height);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border) solid var(--color-separator);
+  border-bottom-width: var(--border-raised);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  font-weight: 600;
+  line-height: 1.3;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform var(--duration-bounce) var(--ease-spring), border-color var(--duration-press) ease-out, background-color var(--duration-press) ease-out;
+  will-change: transform;
+}
+.option { --option-chosen-scale: var(--scale-selected); }
+.option:active { transform: scale(var(--scale-option-pressed)); transition-duration: var(--duration-press); transition-timing-function: ease-out; }
+.option input { position: absolute; width: 1px; height: 1px; margin: 0; opacity: 0; pointer-events: none; }
+.option-label { flex: 1; min-width: 0; }
+.option-mark {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--icon);
+  height: var(--icon);
+  border: var(--border) solid var(--color-control);
+  border-radius: 50%;
+  color: var(--color-on-accent);
+}
+.option-mark svg { width: var(--icon-sm); height: var(--icon-sm); opacity: 0; }
+.option input:checked ~ .option-mark { border-color: var(--color-accent); background: var(--color-accent); }
+.option input:checked ~ .option-mark svg { opacity: 1; }
+.option input:checked ~ .option-label { color: var(--color-accent-pressed); }
+.option:has(input:checked) {
+  z-index: 1;
+  transform: scale(var(--option-chosen-scale));
+  border-color: var(--color-accent);
+  background: var(--color-accent-tint);
+  /* The animation alone moves a chosen option: no transform transition competing with it, and "both"
+     keeps the end size, so it does not flash back to 1 when the animation ends. */
+  transition-property: border-color, background-color;
+  animation: option-pop var(--duration-pop) var(--ease-spring) both;
+}
+.option:has(input:focus-visible) { outline: var(--focus-ring) solid var(--color-accent); outline-offset: var(--border); }
+
+.options-grid .option { justify-content: center; min-height: var(--tile-height); padding: var(--space-2); text-align: center; font-size: var(--text-title3); }
+.options-grid .option:last-child { grid-column: 1 / -1; font-size: var(--text-body); }
+.options-grid .option { --option-chosen-scale: var(--scale-selected-tile); }
+.options-grid .option:last-child { --option-chosen-scale: var(--scale-selected); }
+.options-grid .option-label { flex: none; }
+.options-grid .option-mark { position: absolute; top: var(--space-1); right: var(--space-1); width: var(--icon-sm); height: var(--icon-sm); border: 0; }
+.options-grid .option-mark svg { width: var(--space-3); height: var(--space-3); }
+
+.counter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+  padding: var(--space-2);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+.counter-button {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: var(--button-height);
+  height: var(--button-height);
+  border: 0;
+  border-radius: var(--radius-button);
+  background: var(--color-fill);
+  color: var(--color-accent);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform var(--duration-bounce) var(--ease-spring);
+}
+.counter-button svg { width: var(--icon); height: var(--icon); }
+.counter-button:active:not([aria-disabled="true"]) { transform: scale(0.88); transition-duration: var(--duration-press); transition-timing-function: ease-out; }
+.counter-button[aria-disabled="true"] { opacity: 0.4; cursor: default; }
+.counter-value { font-size: var(--text-title3); font-weight: 700; text-align: center; }
+.counter-number { display: inline-block; }
+.counter-number.is-popping { animation: pop var(--duration-pop) var(--ease-out); }
+
+.actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  margin-top: auto;
+  padding: var(--space-6) 0 max(var(--space-4), env(safe-area-inset-bottom));
+  background: linear-gradient(to bottom, var(--color-bg-clear), var(--color-bg) var(--space-6));
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: var(--button-height);
+  padding: var(--space-3) var(--space-5);
+  border: 0;
+  border-radius: var(--radius-button);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform var(--duration-bounce) var(--ease-spring), background-color var(--duration-press) ease-out;
+}
+.button:active:not(:disabled), .back:active {
+  transform: scale(0.92);
+  transition-duration: var(--duration-press);
+  transition-timing-function: ease-out;
+}
+.button-primary { background: var(--color-accent); color: var(--color-on-accent); }
+.button-primary:active:not(:disabled) { background: var(--color-accent-pressed); }
+.button-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+.button-secondary { background: var(--color-fill); color: var(--color-accent-pressed); }
+
+.back:focus-visible, .button:focus-visible, .counter-button:focus-visible, a:focus-visible, .faq summary:focus-visible, .scroll-hint:focus-visible {
+  outline: var(--focus-ring) solid var(--color-accent);
+  outline-offset: var(--border);
+}
+
+@media (hover: hover) {
+  .option:hover { border-color: var(--color-muted); }
+  .option:has(input:checked):hover { border-color: var(--color-accent); }
+  .button-primary:hover:not(:disabled) { background: var(--color-accent-pressed); }
+}
+
+/* ---------- Results ---------- */
+
+.results { padding-bottom: var(--space-6); }
+.results .bubble h1 { font-size: var(--text-title2); }
+
+.earnings {
+  margin-top: var(--space-4);
+  overflow: hidden;
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+.earnings-total { padding: var(--space-5) var(--space-4); background: var(--color-accent); color: var(--color-on-accent); }
+.earnings-total p { margin: 0; }
+.earnings-label { font-weight: 600; }
+.earnings-amount { margin-top: var(--space-1); font-family: var(--font-display); font-size: var(--text-hero); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; }
+.earnings-unit { font-size: var(--text-title3); font-weight: 700; letter-spacing: 0; }
+.earnings-caption { margin-top: var(--space-2); font-size: var(--text-subheadline); }
+.earnings-part { padding: 0 var(--space-4); }
+.earnings-part h3 { margin: 0; padding-top: var(--space-4); color: var(--color-muted); font-size: var(--text-subheadline); font-weight: 600; }
+.earnings-list { margin: 0; padding: 0; list-style: none; }
+.earnings-row { padding: var(--space-3) 0; }
+.earnings-row + .earnings-row { border-top: 1px solid var(--color-separator); }
+.earnings-row-main { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 var(--space-4); font-weight: 600; }
+.earnings-value { color: var(--color-accent-pressed); text-align: right; }
+.earnings-detail { margin: var(--space-1) 0 0; color: var(--color-muted); font-size: var(--text-subheadline); }
+.earnings-note { margin: var(--space-2) 0 0; padding: var(--space-3) var(--space-4) var(--space-4); border-top: 1px solid var(--color-separator); color: var(--color-muted); font-size: var(--text-subheadline); }
+
+.summary {
+  margin: var(--space-4) 0 0;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+.summary-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 var(--space-4); padding: var(--space-3) 0; }
+.summary-row + .summary-row { border-top: 1px solid var(--color-separator); }
+.summary dt { color: var(--color-muted); }
+.summary dd { margin: 0; font-weight: 600; text-align: right; }
+
+.group { margin-top: var(--space-8); }
+.group h2 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-3);
+  font-family: var(--font-display);
+  font-size: var(--text-title2);
+  font-weight: 700;
+  line-height: 1.25;
+}
+.status-icon { flex: none; width: var(--status-icon); height: var(--status-icon); }
+.status-icon .glyph { fill: none; stroke: var(--color-surface); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.status-icon .glyph-dot { fill: var(--color-surface); }
+.group-yes .status-icon { color: var(--color-yes); }
+.group-maybe .status-icon { color: var(--color-maybe); }
+.group-no .status-icon { color: var(--color-no); }
+
+.items { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-3); margin: 0; padding: 0; list-style: none; }
+.item { padding: var(--space-4) var(--space-4) var(--space-1); border-radius: var(--radius-card); background: var(--color-surface); box-shadow: var(--shadow-card); }
+.item h3 { margin: 0; font-size: var(--text-body); font-weight: 600; line-height: 1.3; }
+.item-reason { margin: var(--space-1) 0 0; }
+.item-next { margin: var(--space-3) 0 0; padding: var(--space-3); border-radius: var(--radius-button); }
+.item-next strong { display: block; font-size: var(--text-subheadline); }
+.group-yes .item-next { background: var(--color-yes-tint); }
+.group-maybe .item-next { background: var(--color-maybe-tint); }
+.group-no .item-next { background: var(--color-no-tint); }
+.item-source { margin: var(--space-1) 0 0; color: var(--color-muted); font-size: var(--text-subheadline); }
+.item-source a, .item-source-pending { display: inline-flex; align-items: center; gap: var(--space-1); min-height: var(--touch); }
+.item-source a { color: var(--color-accent); font-weight: 600; text-decoration: none; }
+.item-source svg { flex: none; width: var(--icon-sm); height: var(--icon-sm); }
+.empty { margin: 0; padding: var(--space-4); border-radius: var(--radius-card); background: var(--color-surface); color: var(--color-muted); }
+
+.notice { margin: var(--space-8) 0 0; color: var(--color-muted); font-size: var(--text-subheadline); text-align: center; }
+.restart { margin-top: var(--space-4); }
+
+.bottom {
+  padding-top: var(--space-6);
+  padding-bottom: max(var(--space-6), env(safe-area-inset-bottom));
+  border-top: 1px solid var(--color-separator);
+  color: var(--color-muted);
+  font-size: var(--text-subheadline);
+  text-align: center;
+}
+.bottom p { margin: 0; }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- Motion ---------- */
+
+/* Played when a button is released: squash, overshoot, settle. */
+@keyframes bounce { 0% { transform: scale(0.9); } 40% { transform: scale(1.08); } 65% { transform: scale(0.96); } 85% { transform: scale(1.02); } 100% { transform: scale(1); } }
+.is-bouncing { animation: bounce var(--duration-bounce) var(--ease-out); }
+/* One segment with the spring curve: it overshoots once and settles without stopping halfway. */
+@keyframes option-pop {
+  from { transform: scale(var(--scale-option-pressed)); }
+  to { transform: scale(var(--option-chosen-scale)); }
+}
+@keyframes pop { 0% { transform: scale(1); } 35% { transform: scale(1.05); } 65% { transform: scale(0.98); } 100% { transform: scale(1); } }
+@keyframes enter-forward { from { opacity: 0; transform: translateX(1.5rem); } }
+@keyframes enter-back { from { opacity: 0; transform: translateX(-1.5rem); } }
+.enter-forward { animation: enter-forward var(--duration-screen) var(--ease-out); }
+.enter-back { animation: enter-back var(--duration-screen) var(--ease-out); }
+
+@media (prefers-reduced-motion: reduce) {
+  /* One iteration too, so endless loops like the blink do not flicker at 0.01 ms. */
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

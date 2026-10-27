@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- The mascot's head, simplified so it still reads at 16 px. Colors match the mascot in styles.css. -->
+  <rect width="64" height="64" rx="14" fill="#e2f1ee"/>
+  <path d="M32 14 C48 14 56 26 56 39 C56 52 46 60 32 60 C18 60 8 52 8 39 C8 26 16 14 32 14 Z" fill="#4cc23a"/>
+  <ellipse cx="32" cy="38" rx="20" ry="13" fill="#7fd651"/>
+  <circle cx="23" cy="36" r="7.5" fill="#fff"/>
+  <circle cx="41" cy="36" r="7.5" fill="#fff"/>
+  <circle cx="24" cy="37" r="3.6" fill="#2b2b2b"/>
+  <circle cx="40" cy="37" r="3.6" fill="#2b2b2b"/>
+  <path d="M26 44 C26 40 38 40 38 44 C38 50 35 54 31 57 C31 53 30 50 27 48 C26 47 26 45.5 26 44 Z" fill="#ff9f1c"/>
+  <g transform="rotate(-8 32 14)">
+    <ellipse cx="32" cy="17" rx="21" ry="4.5" fill="#e9b850"/>
+    <path d="M20 17 L21 5 C21.5 2.5 42.5 2.5 43 5 L44 17 Z" fill="#f4c96b"/>
+    <path d="M20.6 10.5 L43.4 10.5 L44 16 L20 16 Z" fill="#0b6e64"/>
+  </g>
+</svg>

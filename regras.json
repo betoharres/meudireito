@@ -1,0 +1,340 @@
+{
+  "revision": "2026-10",
+  "$comment": "Values in centavos. Minimum wage 2026: R$ 1.621 = 162100. Half: 81050. Quarter: 40525. Three: 486300. Keep app.js EMBEDDED_RULES identical to this file.",
+  "prices": {
+    "$comment": "kwhMilliReais: average residential (B1) tariff of the distributors approved by ANEEL in 2026, without taxes: R$ 0,815 per kWh. gasCylinderCentavos: lowest Gás do Povo reference price for a 13 kg cylinder (Pernambuco), Portaria Interministerial MME/MF 1/2026. Both are conservative on purpose.",
+    "kwhMilliReais": 815,
+    "gasCylinderCentavos": 8967
+  },
+  "programs": [
+    {
+      "id": "cadunico",
+      "name": "Cadastro Único (CadÚnico)",
+      "source": "https://www.gov.br/mds/pt-br/acoes-e-programas/cadastro-unico",
+      "cases": [
+        {
+          "when": {
+            "anyOf": [
+              { "properties": { "incomePerPersonCentavos": { "maximum": 81050 } } },
+              { "properties": { "totalIncomeCentavos": { "maximum": 486300 } } }
+            ]
+          },
+          "section": "yes",
+          "reason": "A renda da sua casa está dentro do limite do Cadastro Único.",
+          "nextStep": "Vá ao CRAS com CPF e comprovante de endereço."
+        }
+      ],
+      "otherwise": {
+        "section": "no",
+        "reason": "A renda passa dos dois limites: R$ 810,50 por pessoa e R$ 4.863 no total.",
+        "nextStep": "Se a renda da casa diminuir, procure o CRAS para se cadastrar."
+      }
+    },
+    {
+      "id": "bolsa-familia",
+      "name": "Bolsa Família",
+      "source": "https://www.gov.br/mds/pt-br/acoes-e-programas/bolsa-familia",
+      "cases": [
+        {
+          "when": {
+            "$comment": "Lei 14.601/2023: renda por pessoa de até R$ 218.",
+            "properties": {
+              "people": { "const": 1 },
+              "incomePerPersonCentavos": { "maximum": 21800 }
+            }
+          },
+          "section": "yes",
+          "reason": "A renda por pessoa é de até R$ 218, mas quem mora sozinho pode passar por entrevista ou visita.",
+          "nextStep": "Faça ou atualize o CadÚnico no CRAS. É ele que dá acesso ao Bolsa Família.",
+          "estimate": {
+            "$comment": "Lei 14.601/2023: at least R$ 600 per family.",
+            "type": "fixed",
+            "monthlyCentavos": 60000,
+            "qualifier": "atLeast",
+            "detail": "Valor mínimo por família. Aumenta com crianças, gestantes ou jovens na casa."
+          }
+        },
+        {
+          "when": {
+            "$comment": "Lei 14.601/2023: renda por pessoa de até R$ 218.",
+            "properties": { "incomePerPersonCentavos": { "maximum": 21800 } }
+          },
+          "section": "yes",
+          "reason": "A renda por pessoa é de até R$ 218.",
+          "nextStep": "Faça ou atualize o CadÚnico no CRAS. É ele que dá acesso ao Bolsa Família.",
+          "estimate": {
+            "$comment": "Lei 14.601/2023: at least R$ 600 per family.",
+            "type": "fixed",
+            "monthlyCentavos": 60000,
+            "qualifier": "atLeast",
+            "detail": "Valor mínimo por família. Aumenta com crianças, gestantes ou jovens na casa."
+          }
+        }
+      ],
+      "otherwise": {
+        "section": "no",
+        "reason": "A renda por pessoa passa de R$ 218.",
+        "nextStep": "Se a renda diminuir, atualize o CadÚnico no CRAS."
+      }
+    },
+    {
+      "id": "tarifa-social-luz",
+      "name": "Tarifa Social de luz",
+      "source": "https://www.gov.br/aneel/pt-br/assuntos/tarifas/tarifa-social",
+      "cases": [
+        {
+          "when": { "properties": { "incomePerPersonCentavos": { "maximum": 81050 } } },
+          "section": "yes",
+          "reason": "Com renda por pessoa de até R$ 810,50, a luz é grátis até 80 kWh por mês.",
+          "nextStep": "Mantenha o CadÚnico em dia. Se o desconto não vier na conta, peça à empresa de luz.",
+          "estimate": { "type": "energy", "kwh": 80, "discountPermille": 1000, "qualifier": "upTo" }
+        }
+      ],
+      "otherwise": {
+        "section": "no",
+        "reason": "É só para renda por pessoa de até R$ 810,50.",
+        "nextStep": "Veja se você tem direito ao Desconto Social de luz."
+      }
+    },
+    {
+      "id": "desconto-social-luz",
+      "name": "Desconto Social de luz",
+      "source": "#",
+      "cases": [
+        {
+          "when": {
+            "properties": {
+              "incomePerPersonCentavos": { "exclusiveMinimum": 81050, "maximum": 162100 }
+            }
+          },
+          "section": "yes",
+          "reason": "Com renda por pessoa entre R$ 810,50 e R$ 1.621, há desconto na luz até 120 kWh por mês.",
+          "nextStep": "Faça ou atualize o CadÚnico no CRAS. Depois, confira se o desconto veio na conta.",
+          "estimate": {
+            "$comment": "Exemption from the CDE charge on up to 120 kWh: about 11.8% off, the government's average estimate.",
+            "type": "energy",
+            "kwh": 120,
+            "discountPermille": 118,
+            "qualifier": "upTo"
+          }
+        }
+      ],
+      "otherwise": {
+        "section": "no",
+        "reason": "É só para renda por pessoa acima de R$ 810,50 e até R$ 1.621.",
+        "nextStep": "Se a renda mudar, atualize o CadÚnico no CRAS."
+      }
+    },
+    {
+      "id": "gas-do-povo",
+      "name": "Gás do Povo",
+      "source": "https://www.gov.br/mds/pt-br/acoes-e-programas/gas-do-povo",
+      "cases": [
+        {
+          "when": { "properties": { "people": { "const": 1 } } },
+          "section": "no",
+          "reason": "O programa exige 2 ou mais pessoas na família.",
+          "nextStep": "Se mais alguém passar a morar com você, atualize o CadÚnico."
+        },
+        {
+          "when": {
+            "$comment": "Secom, Perguntas e respostas sobre o Gás do Povo (2026): families of 2 or 3 people get up to 4 refills a year.",
+            "properties": {
+              "people": { "minimum": 2, "maximum": 3 },
+              "incomePerPersonCentavos": { "maximum": 81050 }
+            }
+          },
+          "section": "yes",
+          "reason": "Sua família tem 2 ou mais pessoas e renda por pessoa de até R$ 810,50.",
+          "nextStep": "Mantenha o CadÚnico em dia e veja nos canais oficiais como pegar o botijão.",
+          "estimate": { "type": "gas", "cylindersPerYear": 4, "qualifier": "atLeast" }
+        },
+        {
+          "when": {
+            "$comment": "Secom, Perguntas e respostas sobre o Gás do Povo (2026): families of 4 or more people get 6 refills a year.",
+            "properties": {
+              "people": { "minimum": 4 },
+              "incomePerPersonCentavos": { "maximum": 81050 }
+            }
+          },
+          "section": "yes",
+          "reason": "Sua família tem 2 ou mais pessoas e renda por pessoa de até R$ 810,50.",
+          "nextStep": "Mantenha o CadÚnico em dia e veja nos canais oficiais como pegar o botijão.",
+          "estimate": { "type": "gas", "cylindersPerYear": 6, "qualifier": "atLeast" }
+        }
+      ],
+      "otherwise": {
+        "section": "no",
+        "reason": "É só para renda por pessoa de até R$ 810,50.",
+        "nextStep": "Se a renda diminuir, atualize o CadÚnico no CRAS."
+      }
+    },
+    {
+      "id": "pe-de-meia",
+      "name": "Pé-de-Meia",
+      "source": "https://www.gov.br/mec/pt-br/pe-de-meia",
+      "cases": [
+        {
+          "when": {
+            "properties": {
+              "incomePerPersonCentavos": { "maximum": 81050 },
+              "study": { "const": "public-high-school" },
+              "age": { "minimum": 14, "maximum": 24 }
+            }
+          },
+          "section": "yes",
+          "reason": "Você estuda em escola pública, tem a idade certa e a renda está dentro do limite.",
+          "nextStep": "Em geral não precisa se inscrever: mantenha o CadÚnico em dia e vá às aulas.",
+          "estimate": {
+            "$comment": "MEC: R$ 200 monthly incentive for students in regular high school.",
+            "type": "fixed",
+            "monthlyCentavos": 20000,
+            "qualifier": "about",
+            "detail": "Incentivo por mês de aula. Há também R$ 1.000 por ano concluído, guardados na poupança."
+          }
+        },
+        {
+          "when": {
+            "$comment": "No estimate: MEC pays EJA students per enrollment and attendance, not monthly.",
+            "properties": {
+              "incomePerPersonCentavos": { "maximum": 81050 },
+              "study": { "const": "public-eja" },
+              "age": { "minimum": 19, "maximum": 24 }
+            }
+          },
+          "section": "yes",
+          "reason": "Você estuda em escola pública, tem a idade certa e a renda está dentro do limite.",
+          "nextStep": "Em geral não precisa se inscrever: mantenha o CadÚnico em dia e vá às aulas."
+        }
+      ],
+      "otherwise": {
+        "section": "no",
+        "reason": "É para ensino médio público (14 a 24 anos) ou EJA pública (19 a 24 anos), com renda por pessoa de até R$ 810,50.",
+        "nextStep": "Se voltar a estudar em escola pública, mantenha o CadÚnico em dia."
+      }
+    },
+    {
+      "id": "bpc",
+      "name": "BPC (Benefício de Prestação Continuada)",
+      "source": "https://www.gov.br/inss/pt-br/direitos-e-deveres/beneficios-assistenciais",
+      "cases": [
+        {
+          "when": {
+            "$comment": "Lei 8.742/1993, art. 20: 65 anos ou mais, ou deficiência, e renda por pessoa de até 1/4 do salário mínimo.",
+            "allOf": [
+              {
+                "anyOf": [
+                  { "properties": { "age": { "minimum": 65 } } },
+                  { "properties": { "disability": { "const": true } } }
+                ]
+              },
+              { "properties": { "incomePerPersonCentavos": { "maximum": 40525 } } }
+            ]
+          },
+          "section": "maybe",
+          "reason": "Você tem 65 anos ou mais ou deficiência, e a renda por pessoa é de até R$ 405,25, mas o INSS avalia cada caso.",
+          "nextStep": "Faça o CadÚnico no CRAS e peça o BPC no INSS: ligue 135 ou use o app Meu INSS.",
+          "estimate": {
+            "$comment": "Lei 8.742/1993, art. 20: one minimum wage per month.",
+            "type": "fixed",
+            "monthlyCentavos": 162100,
+            "qualifier": "about",
+            "detail": "1 salário mínimo por mês, se o INSS aprovar."
+          }
+        }
+      ],
+      "otherwise": {
+        "section": "no",
+        "reason": "É para quem tem 65 anos ou mais ou deficiência, com renda por pessoa de até R$ 405,25.",
+        "nextStep": "Se a sua situação mudar, procure o CRAS."
+      }
+    },
+    {
+      "id": "seguro-desemprego",
+      "name": "Seguro-desemprego",
+      "source": "https://www.gov.br/pt-br/servicos/solicitar-o-seguro-desemprego",
+      "cases": [
+        {
+          "when": { "properties": { "dismissal": { "const": "up-to-120-days" } } },
+          "section": "yes",
+          "reason": "URGENTE: peça já, porque o prazo é de até 120 dias depois da demissão.",
+          "nextStep": "Peça pelo app Carteira de Trabalho Digital, pelo gov.br ou pelo telefone 158.",
+          "estimate": {
+            "$comment": "Lei 7.998/1990: 3 to 5 installments; no installment is below the minimum wage.",
+            "type": "fixed",
+            "monthlyCentavos": 162100,
+            "qualifier": "atLeast",
+            "detail": "Cada parcela vale pelo menos 1 salário mínimo.",
+            "duration": "Por 3 a 5 meses."
+          }
+        },
+        {
+          "when": { "properties": { "dismissal": { "const": "over-120-days" } } },
+          "section": "no",
+          "reason": "O prazo provavelmente venceu: o pedido vale até 120 dias depois da demissão.",
+          "nextStep": "Se tiver dúvida sobre a data, ligue 158."
+        }
+      ],
+      "otherwise": {
+        "section": "no",
+        "reason": "É só para quem perdeu emprego com carteira assinada, sem justa causa.",
+        "nextStep": "Se isso acontecer, peça em até 120 dias."
+      }
+    },
+    {
+      "id": "isencao-concursos",
+      "name": "Isenção de taxa em concursos",
+      "source": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13656.htm",
+      "cases": [
+        {
+          "when": {
+            "$comment": "Lei 13.656/2018, art. 1º, I: família no CadÚnico com renda por pessoa de até meio salário mínimo.",
+            "properties": { "incomePerPersonCentavos": { "maximum": 81050 } }
+          },
+          "section": "yes",
+          "reason": "A renda por pessoa é de até R$ 810,50, o limite da lei para concursos federais.",
+          "nextStep": "Faça o CadÚnico no CRAS. Na inscrição do concurso, peça a isenção com o seu NIS."
+        },
+        {
+          "when": {
+            "$comment": "Enters CadÚnico by total income only; the federal law asks for income per person. Depends on each edital.",
+            "properties": { "totalIncomeCentavos": { "maximum": 486300 } }
+          },
+          "section": "maybe",
+          "reason": "Sua casa entra no CadÚnico pela renda total, mas a lei federal pede renda por pessoa de até R$ 810,50.",
+          "nextStep": "Leia as regras de isenção no edital do concurso."
+        }
+      ],
+      "otherwise": {
+        "section": "no",
+        "reason": "A renda passa do limite do CadÚnico.",
+        "nextStep": "Se a renda diminuir, faça o CadÚnico no CRAS."
+      }
+    },
+    {
+      "id": "pix-mei",
+      "name": "Pix MEI",
+      "source": "#",
+      "cases": [
+        {
+          "when": { "properties": { "mei": { "const": true } } },
+          "section": "maybe",
+          "reason": "Foi anunciado, mas ainda não existe.",
+          "nextStep": "Cuidado com golpes: não pague nada nem passe seus dados a quem oferecer."
+        }
+      ],
+      "otherwise": null
+    },
+    {
+      "id": "desenrola-familias",
+      "name": "Desenrola (famílias)",
+      "source": "https://desenrola.gov.br",
+      "cases": [],
+      "otherwise": {
+        "section": "no",
+        "reason": "O programa foi encerrado em 31/08/2026.",
+        "nextStep": "Para negociar dívidas, procure direto o banco ou a loja."
+      }
+    }
+  ]
+}
