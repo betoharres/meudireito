@@ -816,16 +816,16 @@ const QUESTIONS = [
     clears: ['totalIncomeCentavos'],
   },
   {
-    id: 'totalIncomeCentavos',
-    kind: 'income',
-    title: 'Quanto a sua casa ganha por mês, somando todo mundo?',
-    help: 'Some salários, bicos, pensões e aposentadorias. Se ninguém ganha nada, escolha a primeira opção.',
-  },
-  {
     id: 'age',
     kind: 'age',
     title: 'Quantos anos você tem?',
     help: '',
+  },
+  {
+    id: 'totalIncomeCentavos',
+    kind: 'income',
+    title: 'Quanto a sua casa ganha por mês, somando todo mundo?',
+    help: 'Some salários, bicos, pensões e aposentadorias. Se ninguém ganha nada, escolha a primeira opção.',
   },
   {
     id: 'study',
