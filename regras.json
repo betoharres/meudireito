@@ -15,12 +15,24 @@
         {
           "when": {
             "anyOf": [
-              { "properties": { "incomePerPersonCentavos": { "maximum": 81050 } } },
-              { "properties": { "totalIncomeCentavos": { "maximum": 486300 } } }
+              {
+                "properties": {
+                  "incomePerPersonCentavos": {
+                    "maximum": 81050
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "totalIncomeCentavos": {
+                    "maximum": 486300
+                  }
+                }
+              }
             ]
           },
           "section": "yes",
-          "reason": "A renda da sua casa está dentro do limite do Cadastro Único.",
+          "reason": "A renda da sua casa está no limite: até R$ 810,50 por pessoa ou até R$ 4.863 no total.",
           "nextStep": "Vá ao CRAS com CPF e comprovante de endereço."
         }
       ],
@@ -39,8 +51,12 @@
           "when": {
             "$comment": "Lei 14.601/2023: renda por pessoa de até R$ 218.",
             "properties": {
-              "people": { "const": 1 },
-              "incomePerPersonCentavos": { "maximum": 21800 }
+              "people": {
+                "const": 1
+              },
+              "incomePerPersonCentavos": {
+                "maximum": 21800
+              }
             }
           },
           "section": "yes",
@@ -57,7 +73,11 @@
         {
           "when": {
             "$comment": "Lei 14.601/2023: renda por pessoa de até R$ 218.",
-            "properties": { "incomePerPersonCentavos": { "maximum": 21800 } }
+            "properties": {
+              "incomePerPersonCentavos": {
+                "maximum": 21800
+              }
+            }
           },
           "section": "yes",
           "reason": "A renda por pessoa é de até R$ 218.",
@@ -83,11 +103,22 @@
       "source": "https://www.gov.br/aneel/pt-br/assuntos/tarifas/tarifa-social",
       "cases": [
         {
-          "when": { "properties": { "incomePerPersonCentavos": { "maximum": 81050 } } },
+          "when": {
+            "properties": {
+              "incomePerPersonCentavos": {
+                "maximum": 81050
+              }
+            }
+          },
           "section": "yes",
           "reason": "Com renda por pessoa de até R$ 810,50, a luz é grátis até 80 kWh por mês.",
           "nextStep": "Mantenha o CadÚnico em dia. Se o desconto não vier na conta, peça à empresa de luz.",
-          "estimate": { "type": "energy", "kwh": 80, "discountPermille": 1000, "qualifier": "upTo" }
+          "estimate": {
+            "type": "energy",
+            "kwh": 80,
+            "discountPermille": 1000,
+            "qualifier": "upTo"
+          }
         }
       ],
       "otherwise": {
@@ -104,7 +135,10 @@
         {
           "when": {
             "properties": {
-              "incomePerPersonCentavos": { "exclusiveMinimum": 81050, "maximum": 162100 }
+              "incomePerPersonCentavos": {
+                "exclusiveMinimum": 81050,
+                "maximum": 162100
+              }
             }
           },
           "section": "yes",
@@ -131,7 +165,13 @@
       "source": "https://www.gov.br/mds/pt-br/acoes-e-programas/gas-do-povo",
       "cases": [
         {
-          "when": { "properties": { "people": { "const": 1 } } },
+          "when": {
+            "properties": {
+              "people": {
+                "const": 1
+              }
+            }
+          },
           "section": "no",
           "reason": "O programa exige 2 ou mais pessoas na família.",
           "nextStep": "Se mais alguém passar a morar com você, atualize o CadÚnico."
@@ -140,27 +180,44 @@
           "when": {
             "$comment": "Secom, Perguntas e respostas sobre o Gás do Povo (2026): families of 2 or 3 people get up to 4 refills a year.",
             "properties": {
-              "people": { "minimum": 2, "maximum": 3 },
-              "incomePerPersonCentavos": { "maximum": 81050 }
+              "people": {
+                "minimum": 2,
+                "maximum": 3
+              },
+              "incomePerPersonCentavos": {
+                "maximum": 81050
+              }
             }
           },
           "section": "yes",
           "reason": "Sua família tem 2 ou mais pessoas e renda por pessoa de até R$ 810,50.",
           "nextStep": "Mantenha o CadÚnico em dia e veja nos canais oficiais como pegar o botijão.",
-          "estimate": { "type": "gas", "cylindersPerYear": 4, "qualifier": "atLeast" }
+          "estimate": {
+            "type": "gas",
+            "cylindersPerYear": 4,
+            "qualifier": "atLeast"
+          }
         },
         {
           "when": {
             "$comment": "Secom, Perguntas e respostas sobre o Gás do Povo (2026): families of 4 or more people get 6 refills a year.",
             "properties": {
-              "people": { "minimum": 4 },
-              "incomePerPersonCentavos": { "maximum": 81050 }
+              "people": {
+                "minimum": 4
+              },
+              "incomePerPersonCentavos": {
+                "maximum": 81050
+              }
             }
           },
           "section": "yes",
           "reason": "Sua família tem 2 ou mais pessoas e renda por pessoa de até R$ 810,50.",
           "nextStep": "Mantenha o CadÚnico em dia e veja nos canais oficiais como pegar o botijão.",
-          "estimate": { "type": "gas", "cylindersPerYear": 6, "qualifier": "atLeast" }
+          "estimate": {
+            "type": "gas",
+            "cylindersPerYear": 6,
+            "qualifier": "atLeast"
+          }
         }
       ],
       "otherwise": {
@@ -177,13 +234,20 @@
         {
           "when": {
             "properties": {
-              "incomePerPersonCentavos": { "maximum": 81050 },
-              "study": { "const": "public-high-school" },
-              "age": { "minimum": 14, "maximum": 24 }
+              "incomePerPersonCentavos": {
+                "maximum": 81050
+              },
+              "study": {
+                "const": "public-high-school"
+              },
+              "age": {
+                "minimum": 14,
+                "maximum": 24
+              }
             }
           },
           "section": "yes",
-          "reason": "Você estuda em escola pública, tem a idade certa e a renda está dentro do limite.",
+          "reason": "Você está no ensino médio público, tem entre 14 e 24 anos e a renda por pessoa é de até R$ 810,50.",
           "nextStep": "Em geral não precisa se inscrever: mantenha o CadÚnico em dia e vá às aulas.",
           "estimate": {
             "$comment": "MEC: R$ 200 monthly incentive for students in regular high school.",
@@ -197,13 +261,20 @@
           "when": {
             "$comment": "No estimate: MEC pays EJA students per enrollment and attendance, not monthly.",
             "properties": {
-              "incomePerPersonCentavos": { "maximum": 81050 },
-              "study": { "const": "public-eja" },
-              "age": { "minimum": 19, "maximum": 24 }
+              "incomePerPersonCentavos": {
+                "maximum": 81050
+              },
+              "study": {
+                "const": "public-eja"
+              },
+              "age": {
+                "minimum": 19,
+                "maximum": 24
+              }
             }
           },
           "section": "yes",
-          "reason": "Você estuda em escola pública, tem a idade certa e a renda está dentro do limite.",
+          "reason": "Você está na EJA pública, tem entre 19 e 24 anos e a renda por pessoa é de até R$ 810,50.",
           "nextStep": "Em geral não precisa se inscrever: mantenha o CadÚnico em dia e vá às aulas."
         }
       ],
@@ -224,11 +295,29 @@
             "allOf": [
               {
                 "anyOf": [
-                  { "properties": { "age": { "minimum": 65 } } },
-                  { "properties": { "disability": { "const": true } } }
+                  {
+                    "properties": {
+                      "age": {
+                        "minimum": 65
+                      }
+                    }
+                  },
+                  {
+                    "properties": {
+                      "disability": {
+                        "const": true
+                      }
+                    }
+                  }
                 ]
               },
-              { "properties": { "incomePerPersonCentavos": { "maximum": 40525 } } }
+              {
+                "properties": {
+                  "incomePerPersonCentavos": {
+                    "maximum": 40525
+                  }
+                }
+              }
             ]
           },
           "section": "maybe",
@@ -255,9 +344,15 @@
       "source": "https://www.gov.br/pt-br/servicos/solicitar-o-seguro-desemprego",
       "cases": [
         {
-          "when": { "properties": { "dismissal": { "const": "up-to-120-days" } } },
+          "when": {
+            "properties": {
+              "dismissal": {
+                "const": "up-to-120-days"
+              }
+            }
+          },
           "section": "yes",
-          "reason": "URGENTE: peça já, porque o prazo é de até 120 dias depois da demissão.",
+          "reason": "URGENTE: você perdeu o emprego com carteira assinada há até 120 dias, que é o prazo para pedir.",
           "nextStep": "Peça pelo app Carteira de Trabalho Digital, pelo gov.br ou pelo telefone 158.",
           "estimate": {
             "$comment": "Lei 7.998/1990: 3 to 5 installments; no installment is below the minimum wage.",
@@ -269,7 +364,13 @@
           }
         },
         {
-          "when": { "properties": { "dismissal": { "const": "over-120-days" } } },
+          "when": {
+            "properties": {
+              "dismissal": {
+                "const": "over-120-days"
+              }
+            }
+          },
           "section": "no",
           "reason": "O prazo provavelmente venceu: o pedido vale até 120 dias depois da demissão.",
           "nextStep": "Se tiver dúvida sobre a data, ligue 158."
@@ -289,7 +390,11 @@
         {
           "when": {
             "$comment": "Lei 13.656/2018, art. 1º, I: família no CadÚnico com renda por pessoa de até meio salário mínimo.",
-            "properties": { "incomePerPersonCentavos": { "maximum": 81050 } }
+            "properties": {
+              "incomePerPersonCentavos": {
+                "maximum": 81050
+              }
+            }
           },
           "section": "yes",
           "reason": "A renda por pessoa é de até R$ 810,50, o limite da lei para concursos federais.",
@@ -298,7 +403,11 @@
         {
           "when": {
             "$comment": "Enters CadÚnico by total income only; the federal law asks for income per person. Depends on each edital.",
-            "properties": { "totalIncomeCentavos": { "maximum": 486300 } }
+            "properties": {
+              "totalIncomeCentavos": {
+                "maximum": 486300
+              }
+            }
           },
           "section": "maybe",
           "reason": "Sua casa entra no CadÚnico pela renda total, mas a lei federal pede renda por pessoa de até R$ 810,50.",
@@ -312,12 +421,359 @@
       }
     },
     {
+      "id": "farmacia-popular",
+      "name": "Farmácia Popular",
+      "source": "https://www.gov.br/saude/pt-br/composicao/sectics/farmacia-popular",
+      "cases": [
+        {
+          "when": {
+            "$comment": "Ministério da Saúde: geriatric diapers for people aged 60+ or with a disability.",
+            "anyOf": [
+              {
+                "properties": {
+                  "age": {
+                    "minimum": 60
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "disability": {
+                    "const": true
+                  }
+                }
+              }
+            ]
+          },
+          "section": "yes",
+          "reason": "Qualquer pessoa com receita pega os remédios da lista de graça. Como você tem 60 anos ou mais ou deficiência, também pode pegar fraldas geriátricas.",
+          "nextStep": "Vá a uma farmácia com o selo \"Aqui Tem Farmácia Popular\" levando a receita (do SUS ou particular), documento com foto e CPF. Para as fraldas, leve também receita ou laudo.",
+          "estimate": {
+            "type": "variable",
+            "headline": "Remédios e fraldas grátis",
+            "detail": "Não entra na soma porque depende do que você usa: cada remédio ou item da lista sai de graça, então você economiza o preço que pagaria na farmácia."
+          }
+        }
+      ],
+      "otherwise": {
+        "section": "yes",
+        "reason": "Qualquer pessoa com receita médica tem direito: remédios para pressão alta, diabetes, asma, colesterol e outros saem de graça.",
+        "nextStep": "Vá a uma farmácia com o selo \"Aqui Tem Farmácia Popular\" levando a receita (do SUS ou particular), documento com foto e CPF.",
+        "estimate": {
+          "type": "variable",
+          "headline": "Remédios grátis",
+          "detail": "Não entra na soma porque depende dos remédios que você usa: cada item da lista sai de graça, então você economiza o preço que pagaria na farmácia."
+        }
+      }
+    },
+    {
+      "id": "carteira-pessoa-idosa",
+      "name": "Carteira da Pessoa Idosa",
+      "source": "https://www.planalto.gov.br/ccivil_03/leis/2003/l10.741.htm",
+      "cases": [
+        {
+          "when": {
+            "$comment": "Lei 10.741/2003, art. 40: 2 free seats per interstate bus for people aged 60+ with income up to 2 minimum wages; at least 50% off when they are taken. The household total caps the person's own income.",
+            "properties": {
+              "age": {
+                "minimum": 60
+              },
+              "totalIncomeCentavos": {
+                "maximum": 324200
+              }
+            }
+          },
+          "section": "yes",
+          "reason": "Você tem 60 anos ou mais e a renda da casa toda é de até 2 salários mínimos (R$ 3.242), então a sua também é.",
+          "nextStep": "Peça a carteira de graça no CRAS ou no site carteiraidoso.cidadania.gov.br.",
+          "estimate": {
+            "type": "variable",
+            "headline": "Passagem grátis ou 50%",
+            "detail": "Não entra na soma porque depende das viagens que você fizer: em ônibus interestaduais há 2 vagas grátis por ônibus e, se acabarem, você paga no máximo metade da passagem."
+          }
+        },
+        {
+          "when": {
+            "properties": {
+              "age": {
+                "minimum": 60
+              }
+            }
+          },
+          "section": "maybe",
+          "reason": "Você tem 60 anos ou mais. Tem direito se a sua renda, só a sua, for de até 2 salários mínimos (R$ 3.242).",
+          "nextStep": "Se a sua renda estiver no limite, peça a carteira no CRAS ou no site carteiraidoso.cidadania.gov.br.",
+          "estimate": {
+            "type": "variable",
+            "headline": "Passagem grátis ou 50%",
+            "detail": "Não entra na soma porque depende das viagens que você fizer: em ônibus interestaduais há 2 vagas grátis por ônibus e, se acabarem, você paga no máximo metade da passagem."
+          }
+        }
+      ],
+      "otherwise": {
+        "section": "no",
+        "reason": "É para quem tem 60 anos ou mais e renda de até 2 salários mínimos (R$ 3.242).",
+        "nextStep": "Ao completar 60 anos, veja se a sua renda está no limite."
+      }
+    },
+    {
+      "id": "id-jovem",
+      "name": "ID Jovem",
+      "source": "https://idjovem.juventude.gov.br/",
+      "cases": [
+        {
+          "when": {
+            "$comment": "Decreto 8.537/2015, art. 2º, I: aged 15 to 29, family in CadÚnico with monthly income up to 2 minimum wages.",
+            "properties": {
+              "age": {
+                "minimum": 15,
+                "maximum": 29
+              },
+              "totalIncomeCentavos": {
+                "maximum": 324200
+              }
+            }
+          },
+          "section": "yes",
+          "reason": "Você tem entre 15 e 29 anos e a renda da casa é de até 2 salários mínimos (R$ 3.242).",
+          "nextStep": "Faça ou atualize o CadÚnico no CRAS e emita a ID Jovem de graça no site ou no app ID Jovem.",
+          "estimate": {
+            "type": "variable",
+            "headline": "Meia-entrada e passagem grátis ou 50%",
+            "detail": "Não entra na soma porque depende do uso: você paga metade em cinema, shows e jogos e tem vagas grátis ou com 50% de desconto em ônibus interestaduais."
+          }
+        }
+      ],
+      "otherwise": {
+        "section": "no",
+        "reason": "É para jovens de 15 a 29 anos de família no CadÚnico com renda de até 2 salários mínimos (R$ 3.242).",
+        "nextStep": "Se a sua situação mudar, procure o CRAS."
+      }
+    },
+    {
+      "id": "minha-casa-minha-vida",
+      "name": "Minha Casa, Minha Vida",
+      "source": "https://www.gov.br/cidades/pt-br/acesso-a-informacao/acoes-e-programas/habitacao/programa-minha-casa-minha-vida/sobre-o-minha-casa-minha-vida-1",
+      "cases": [
+        {
+          "when": {
+            "$comment": "Lei 14.620/2023: no subsidy for people who already own a home or hold a housing loan.",
+            "properties": {
+              "ownsHome": {
+                "const": true
+              }
+            }
+          },
+          "section": "no",
+          "reason": "O programa é para famílias que ainda não têm casa própria nem financiamento de casa.",
+          "nextStep": "Nada a fazer neste programa agora."
+        },
+        {
+          "when": {
+            "$comment": "Portaria MCID 333/2026, urban Faixa 1: gross household income up to R$ 3.200.",
+            "properties": {
+              "totalIncomeCentavos": {
+                "maximum": 320000
+              }
+            }
+          },
+          "section": "yes",
+          "reason": "Ninguém da casa tem imóvel e a renda da casa é de até R$ 3.200: vocês entram na Faixa 1, a que tem mais ajuda.",
+          "nextStep": "Faça ou atualize o CadÚnico e procure a prefeitura, que faz a inscrição da Faixa 1.",
+          "estimate": {
+            "type": "variable",
+            "headline": "Desconto de até R$ 55 mil",
+            "detail": "Não entra na soma porque depende da cidade e do imóvel: o desconto diminui o preço da casa (até R$ 65 mil na Região Norte). Na Faixa 1, quem recebe Bolsa Família ou BPC não paga prestações."
+          }
+        },
+        {
+          "when": {
+            "$comment": "Faixa 2: up to R$ 5.000.",
+            "properties": {
+              "totalIncomeCentavos": {
+                "maximum": 500000
+              }
+            }
+          },
+          "section": "yes",
+          "reason": "Ninguém da casa tem imóvel e a renda da casa é de até R$ 5.000: vocês entram na Faixa 2.",
+          "nextStep": "Simule o financiamento na Caixa ou com um correspondente do programa.",
+          "estimate": {
+            "type": "variable",
+            "headline": "Desconto de até R$ 55 mil",
+            "detail": "Não entra na soma porque depende da renda, da cidade e do imóvel: o desconto diminui o valor financiado (até R$ 65 mil na Região Norte)."
+          }
+        },
+        {
+          "when": {
+            "$comment": "Faixa 3: up to R$ 9.600, no subsidy, lower interest.",
+            "properties": {
+              "totalIncomeCentavos": {
+                "maximum": 960000
+              }
+            }
+          },
+          "section": "yes",
+          "reason": "Ninguém da casa tem imóvel e a renda da casa é de até R$ 9.600: vocês entram na Faixa 3.",
+          "nextStep": "Simule o financiamento na Caixa ou com um correspondente do programa.",
+          "estimate": {
+            "type": "variable",
+            "headline": "Juros menores",
+            "detail": "Não entra na soma porque não é dinheiro na mão: não há desconto no preço, mas os juros são menores que os de mercado, para imóveis de até R$ 400 mil."
+          }
+        },
+        {
+          "when": {
+            "$comment": "Faixa 4 (Classe Média): up to R$ 13.000.",
+            "properties": {
+              "totalIncomeCentavos": {
+                "maximum": 1300000
+              }
+            }
+          },
+          "section": "yes",
+          "reason": "Ninguém da casa tem imóvel e a renda da casa é de até R$ 13.000: vocês entram na faixa Classe Média.",
+          "nextStep": "Simule o financiamento na Caixa ou com um correspondente do programa.",
+          "estimate": {
+            "type": "variable",
+            "headline": "Juros menores",
+            "detail": "Não entra na soma porque não é dinheiro na mão: os juros são de 10% ao ano, menores que os de mercado, para imóveis de até R$ 600 mil."
+          }
+        }
+      ],
+      "otherwise": {
+        "section": "no",
+        "reason": "É para famílias com renda de até R$ 13.000 por mês.",
+        "nextStep": "Se a renda da casa mudar, faça uma nova simulação."
+      }
+    },
+    {
+      "id": "prouni",
+      "name": "ProUni",
+      "source": "https://www.gov.br/mec/pt-br/acesso-a-informacao/perguntas-frequentes/prouni",
+      "cases": [
+        {
+          "when": {
+            "properties": {
+              "schooling": {
+                "const": "no"
+              }
+            }
+          },
+          "section": "no",
+          "reason": "É preciso terminar o ensino médio antes.",
+          "nextStep": "Quando terminar o ensino médio, faça o Enem para tentar uma bolsa."
+        },
+        {
+          "when": {
+            "properties": {
+              "schooling": {
+                "const": "college-degree"
+              }
+            }
+          },
+          "section": "no",
+          "reason": "O ProUni é só para quem ainda não tem diploma de faculdade.",
+          "nextStep": "Nada a fazer neste programa."
+        },
+        {
+          "when": {
+            "$comment": "MEC: full scholarship for per-person income up to 1.5 minimum wages; Enem average of 450 or more and a non-zero essay.",
+            "properties": {
+              "incomePerPersonCentavos": {
+                "maximum": 243150
+              }
+            }
+          },
+          "section": "maybe",
+          "reason": "Você terminou o ensino médio, não tem faculdade e a renda por pessoa é de até R$ 2.431,50 (1,5 salário mínimo). Depende da nota: média de 450 no Enem e redação acima de zero.",
+          "nextStep": "Faça o Enem e se inscreva no ProUni pelo Portal Único de Acesso ao Ensino Superior, nas datas do MEC.",
+          "estimate": {
+            "type": "variable",
+            "headline": "Bolsa de 100% na faculdade",
+            "detail": "Não entra na soma porque depende do curso e da faculdade: a bolsa paga a mensalidade inteira."
+          }
+        },
+        {
+          "when": {
+            "$comment": "MEC: half scholarship for per-person income up to 3 minimum wages.",
+            "properties": {
+              "incomePerPersonCentavos": {
+                "maximum": 486300
+              }
+            }
+          },
+          "section": "maybe",
+          "reason": "Você terminou o ensino médio, não tem faculdade e a renda por pessoa é de até R$ 4.863 (3 salários mínimos). Depende da nota: média de 450 no Enem e redação acima de zero.",
+          "nextStep": "Faça o Enem e se inscreva no ProUni pelo Portal Único de Acesso ao Ensino Superior, nas datas do MEC.",
+          "estimate": {
+            "type": "variable",
+            "headline": "Bolsa de 50% na faculdade",
+            "detail": "Não entra na soma porque depende do curso e da faculdade: a bolsa paga metade da mensalidade."
+          }
+        }
+      ],
+      "otherwise": {
+        "section": "no",
+        "reason": "A renda por pessoa passa de R$ 4.863 (3 salários mínimos).",
+        "nextStep": "Se a renda da casa diminuir, tente o ProUni."
+      }
+    },
+    {
+      "id": "abono-salarial",
+      "name": "Abono salarial (PIS/Pasep)",
+      "source": "https://www.gov.br/trabalho-e-emprego/pt-br/servicos/trabalhador/abono-salarial",
+      "cases": [
+        {
+          "when": {
+            "$comment": "MTE, 2026 calendar: base year 2024, average pay up to R$ 2.766, at least 30 days worked, PIS/Pasep for 5+ years. Value: minimum wage / 12 x months worked.",
+            "properties": {
+              "formalWork2024": {
+                "const": "up-to-limit"
+              }
+            }
+          },
+          "section": "yes",
+          "reason": "Você trabalhou com carteira assinada em 2024 ganhando, em média, até R$ 2.766 por mês. Também é preciso ter PIS ou Pasep há pelo menos 5 anos.",
+          "nextStep": "Consulte e saque pelo app Carteira de Trabalho Digital ou pelo gov.br. O abono de 2026 fica disponível até 30/12/2026.",
+          "estimate": {
+            "type": "variable",
+            "headline": "Até R$ 1.621 por ano",
+            "detail": "Não entra na soma porque é pago uma vez por ano e depende dos meses trabalhados em 2024: salário mínimo ÷ 12 × meses trabalhados, ou seja, R$ 136 por mês trabalhado, até R$ 1.621 por 12 meses."
+          }
+        },
+        {
+          "when": {
+            "properties": {
+              "formalWork2024": {
+                "const": "over-limit"
+              }
+            }
+          },
+          "section": "no",
+          "reason": "Em 2024, a sua média passou de R$ 2.766 por mês, o limite do abono pago em 2026.",
+          "nextStep": "Nada a fazer neste programa agora."
+        }
+      ],
+      "otherwise": {
+        "section": "no",
+        "reason": "É para quem trabalhou com carteira assinada em 2024.",
+        "nextStep": "Se trabalhar com carteira assinada, confira o abono no app Carteira de Trabalho Digital."
+      }
+    },
+    {
       "id": "pix-mei",
       "name": "Pix MEI",
       "source": "#",
       "cases": [
         {
-          "when": { "properties": { "mei": { "const": true } } },
+          "when": {
+            "properties": {
+              "mei": {
+                "const": true
+              }
+            }
+          },
           "section": "maybe",
           "reason": "Foi anunciado, mas ainda não existe.",
           "nextStep": "Cuidado com golpes: não pague nada nem passe seus dados a quem oferecer."

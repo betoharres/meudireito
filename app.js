@@ -41,7 +41,7 @@ const EMBEDDED_RULES = {
             ]
           },
           "section": "yes",
-          "reason": "A renda da sua casa está dentro do limite do Cadastro Único.",
+          "reason": "A renda da sua casa está no limite: até R$ 810,50 por pessoa ou até R$ 4.863 no total.",
           "nextStep": "Vá ao CRAS com CPF e comprovante de endereço."
         }
       ],
@@ -256,7 +256,7 @@ const EMBEDDED_RULES = {
             }
           },
           "section": "yes",
-          "reason": "Você estuda em escola pública, tem a idade certa e a renda está dentro do limite.",
+          "reason": "Você está no ensino médio público, tem entre 14 e 24 anos e a renda por pessoa é de até R$ 810,50.",
           "nextStep": "Em geral não precisa se inscrever: mantenha o CadÚnico em dia e vá às aulas.",
           "estimate": {
             "$comment": "MEC: R$ 200 monthly incentive for students in regular high school.",
@@ -283,7 +283,7 @@ const EMBEDDED_RULES = {
             }
           },
           "section": "yes",
-          "reason": "Você estuda em escola pública, tem a idade certa e a renda está dentro do limite.",
+          "reason": "Você está na EJA pública, tem entre 19 e 24 anos e a renda por pessoa é de até R$ 810,50.",
           "nextStep": "Em geral não precisa se inscrever: mantenha o CadÚnico em dia e vá às aulas."
         }
       ],
@@ -361,7 +361,7 @@ const EMBEDDED_RULES = {
             }
           },
           "section": "yes",
-          "reason": "URGENTE: peça já, porque o prazo é de até 120 dias depois da demissão.",
+          "reason": "URGENTE: você perdeu o emprego com carteira assinada há até 120 dias, que é o prazo para pedir.",
           "nextStep": "Peça pelo app Carteira de Trabalho Digital, pelo gov.br ou pelo telefone 158.",
           "estimate": {
             "$comment": "Lei 7.998/1990: 3 to 5 installments; no installment is below the minimum wage.",
@@ -427,6 +427,347 @@ const EMBEDDED_RULES = {
         "section": "no",
         "reason": "A renda passa do limite do CadÚnico.",
         "nextStep": "Se a renda diminuir, faça o CadÚnico no CRAS."
+      }
+    },
+    {
+      "id": "farmacia-popular",
+      "name": "Farmácia Popular",
+      "source": "https://www.gov.br/saude/pt-br/composicao/sectics/farmacia-popular",
+      "cases": [
+        {
+          "when": {
+            "$comment": "Ministério da Saúde: geriatric diapers for people aged 60+ or with a disability.",
+            "anyOf": [
+              {
+                "properties": {
+                  "age": {
+                    "minimum": 60
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "disability": {
+                    "const": true
+                  }
+                }
+              }
+            ]
+          },
+          "section": "yes",
+          "reason": "Qualquer pessoa com receita pega os remédios da lista de graça. Como você tem 60 anos ou mais ou deficiência, também pode pegar fraldas geriátricas.",
+          "nextStep": "Vá a uma farmácia com o selo \"Aqui Tem Farmácia Popular\" levando a receita (do SUS ou particular), documento com foto e CPF. Para as fraldas, leve também receita ou laudo.",
+          "estimate": {
+            "type": "variable",
+            "headline": "Remédios e fraldas grátis",
+            "detail": "Não entra na soma porque depende do que você usa: cada remédio ou item da lista sai de graça, então você economiza o preço que pagaria na farmácia."
+          }
+        }
+      ],
+      "otherwise": {
+        "section": "yes",
+        "reason": "Qualquer pessoa com receita médica tem direito: remédios para pressão alta, diabetes, asma, colesterol e outros saem de graça.",
+        "nextStep": "Vá a uma farmácia com o selo \"Aqui Tem Farmácia Popular\" levando a receita (do SUS ou particular), documento com foto e CPF.",
+        "estimate": {
+          "type": "variable",
+          "headline": "Remédios grátis",
+          "detail": "Não entra na soma porque depende dos remédios que você usa: cada item da lista sai de graça, então você economiza o preço que pagaria na farmácia."
+        }
+      }
+    },
+    {
+      "id": "carteira-pessoa-idosa",
+      "name": "Carteira da Pessoa Idosa",
+      "source": "https://www.planalto.gov.br/ccivil_03/leis/2003/l10.741.htm",
+      "cases": [
+        {
+          "when": {
+            "$comment": "Lei 10.741/2003, art. 40: 2 free seats per interstate bus for people aged 60+ with income up to 2 minimum wages; at least 50% off when they are taken. The household total caps the person's own income.",
+            "properties": {
+              "age": {
+                "minimum": 60
+              },
+              "totalIncomeCentavos": {
+                "maximum": 324200
+              }
+            }
+          },
+          "section": "yes",
+          "reason": "Você tem 60 anos ou mais e a renda da casa toda é de até 2 salários mínimos (R$ 3.242), então a sua também é.",
+          "nextStep": "Peça a carteira de graça no CRAS ou no site carteiraidoso.cidadania.gov.br.",
+          "estimate": {
+            "type": "variable",
+            "headline": "Passagem grátis ou 50%",
+            "detail": "Não entra na soma porque depende das viagens que você fizer: em ônibus interestaduais há 2 vagas grátis por ônibus e, se acabarem, você paga no máximo metade da passagem."
+          }
+        },
+        {
+          "when": {
+            "properties": {
+              "age": {
+                "minimum": 60
+              }
+            }
+          },
+          "section": "maybe",
+          "reason": "Você tem 60 anos ou mais. Tem direito se a sua renda, só a sua, for de até 2 salários mínimos (R$ 3.242).",
+          "nextStep": "Se a sua renda estiver no limite, peça a carteira no CRAS ou no site carteiraidoso.cidadania.gov.br.",
+          "estimate": {
+            "type": "variable",
+            "headline": "Passagem grátis ou 50%",
+            "detail": "Não entra na soma porque depende das viagens que você fizer: em ônibus interestaduais há 2 vagas grátis por ônibus e, se acabarem, você paga no máximo metade da passagem."
+          }
+        }
+      ],
+      "otherwise": {
+        "section": "no",
+        "reason": "É para quem tem 60 anos ou mais e renda de até 2 salários mínimos (R$ 3.242).",
+        "nextStep": "Ao completar 60 anos, veja se a sua renda está no limite."
+      }
+    },
+    {
+      "id": "id-jovem",
+      "name": "ID Jovem",
+      "source": "https://idjovem.juventude.gov.br/",
+      "cases": [
+        {
+          "when": {
+            "$comment": "Decreto 8.537/2015, art. 2º, I: aged 15 to 29, family in CadÚnico with monthly income up to 2 minimum wages.",
+            "properties": {
+              "age": {
+                "minimum": 15,
+                "maximum": 29
+              },
+              "totalIncomeCentavos": {
+                "maximum": 324200
+              }
+            }
+          },
+          "section": "yes",
+          "reason": "Você tem entre 15 e 29 anos e a renda da casa é de até 2 salários mínimos (R$ 3.242).",
+          "nextStep": "Faça ou atualize o CadÚnico no CRAS e emita a ID Jovem de graça no site ou no app ID Jovem.",
+          "estimate": {
+            "type": "variable",
+            "headline": "Meia-entrada e passagem grátis ou 50%",
+            "detail": "Não entra na soma porque depende do uso: você paga metade em cinema, shows e jogos e tem vagas grátis ou com 50% de desconto em ônibus interestaduais."
+          }
+        }
+      ],
+      "otherwise": {
+        "section": "no",
+        "reason": "É para jovens de 15 a 29 anos de família no CadÚnico com renda de até 2 salários mínimos (R$ 3.242).",
+        "nextStep": "Se a sua situação mudar, procure o CRAS."
+      }
+    },
+    {
+      "id": "minha-casa-minha-vida",
+      "name": "Minha Casa, Minha Vida",
+      "source": "https://www.gov.br/cidades/pt-br/acesso-a-informacao/acoes-e-programas/habitacao/programa-minha-casa-minha-vida/sobre-o-minha-casa-minha-vida-1",
+      "cases": [
+        {
+          "when": {
+            "$comment": "Lei 14.620/2023: no subsidy for people who already own a home or hold a housing loan.",
+            "properties": {
+              "ownsHome": {
+                "const": true
+              }
+            }
+          },
+          "section": "no",
+          "reason": "O programa é para famílias que ainda não têm casa própria nem financiamento de casa.",
+          "nextStep": "Nada a fazer neste programa agora."
+        },
+        {
+          "when": {
+            "$comment": "Portaria MCID 333/2026, urban Faixa 1: gross household income up to R$ 3.200.",
+            "properties": {
+              "totalIncomeCentavos": {
+                "maximum": 320000
+              }
+            }
+          },
+          "section": "yes",
+          "reason": "Ninguém da casa tem imóvel e a renda da casa é de até R$ 3.200: vocês entram na Faixa 1, a que tem mais ajuda.",
+          "nextStep": "Faça ou atualize o CadÚnico e procure a prefeitura, que faz a inscrição da Faixa 1.",
+          "estimate": {
+            "type": "variable",
+            "headline": "Desconto de até R$ 55 mil",
+            "detail": "Não entra na soma porque depende da cidade e do imóvel: o desconto diminui o preço da casa (até R$ 65 mil na Região Norte). Na Faixa 1, quem recebe Bolsa Família ou BPC não paga prestações."
+          }
+        },
+        {
+          "when": {
+            "$comment": "Faixa 2: up to R$ 5.000.",
+            "properties": {
+              "totalIncomeCentavos": {
+                "maximum": 500000
+              }
+            }
+          },
+          "section": "yes",
+          "reason": "Ninguém da casa tem imóvel e a renda da casa é de até R$ 5.000: vocês entram na Faixa 2.",
+          "nextStep": "Simule o financiamento na Caixa ou com um correspondente do programa.",
+          "estimate": {
+            "type": "variable",
+            "headline": "Desconto de até R$ 55 mil",
+            "detail": "Não entra na soma porque depende da renda, da cidade e do imóvel: o desconto diminui o valor financiado (até R$ 65 mil na Região Norte)."
+          }
+        },
+        {
+          "when": {
+            "$comment": "Faixa 3: up to R$ 9.600, no subsidy, lower interest.",
+            "properties": {
+              "totalIncomeCentavos": {
+                "maximum": 960000
+              }
+            }
+          },
+          "section": "yes",
+          "reason": "Ninguém da casa tem imóvel e a renda da casa é de até R$ 9.600: vocês entram na Faixa 3.",
+          "nextStep": "Simule o financiamento na Caixa ou com um correspondente do programa.",
+          "estimate": {
+            "type": "variable",
+            "headline": "Juros menores",
+            "detail": "Não entra na soma porque não é dinheiro na mão: não há desconto no preço, mas os juros são menores que os de mercado, para imóveis de até R$ 400 mil."
+          }
+        },
+        {
+          "when": {
+            "$comment": "Faixa 4 (Classe Média): up to R$ 13.000.",
+            "properties": {
+              "totalIncomeCentavos": {
+                "maximum": 1300000
+              }
+            }
+          },
+          "section": "yes",
+          "reason": "Ninguém da casa tem imóvel e a renda da casa é de até R$ 13.000: vocês entram na faixa Classe Média.",
+          "nextStep": "Simule o financiamento na Caixa ou com um correspondente do programa.",
+          "estimate": {
+            "type": "variable",
+            "headline": "Juros menores",
+            "detail": "Não entra na soma porque não é dinheiro na mão: os juros são de 10% ao ano, menores que os de mercado, para imóveis de até R$ 600 mil."
+          }
+        }
+      ],
+      "otherwise": {
+        "section": "no",
+        "reason": "É para famílias com renda de até R$ 13.000 por mês.",
+        "nextStep": "Se a renda da casa mudar, faça uma nova simulação."
+      }
+    },
+    {
+      "id": "prouni",
+      "name": "ProUni",
+      "source": "https://www.gov.br/mec/pt-br/acesso-a-informacao/perguntas-frequentes/prouni",
+      "cases": [
+        {
+          "when": {
+            "properties": {
+              "schooling": {
+                "const": "no"
+              }
+            }
+          },
+          "section": "no",
+          "reason": "É preciso terminar o ensino médio antes.",
+          "nextStep": "Quando terminar o ensino médio, faça o Enem para tentar uma bolsa."
+        },
+        {
+          "when": {
+            "properties": {
+              "schooling": {
+                "const": "college-degree"
+              }
+            }
+          },
+          "section": "no",
+          "reason": "O ProUni é só para quem ainda não tem diploma de faculdade.",
+          "nextStep": "Nada a fazer neste programa."
+        },
+        {
+          "when": {
+            "$comment": "MEC: full scholarship for per-person income up to 1.5 minimum wages; Enem average of 450 or more and a non-zero essay.",
+            "properties": {
+              "incomePerPersonCentavos": {
+                "maximum": 243150
+              }
+            }
+          },
+          "section": "maybe",
+          "reason": "Você terminou o ensino médio, não tem faculdade e a renda por pessoa é de até R$ 2.431,50 (1,5 salário mínimo). Depende da nota: média de 450 no Enem e redação acima de zero.",
+          "nextStep": "Faça o Enem e se inscreva no ProUni pelo Portal Único de Acesso ao Ensino Superior, nas datas do MEC.",
+          "estimate": {
+            "type": "variable",
+            "headline": "Bolsa de 100% na faculdade",
+            "detail": "Não entra na soma porque depende do curso e da faculdade: a bolsa paga a mensalidade inteira."
+          }
+        },
+        {
+          "when": {
+            "$comment": "MEC: half scholarship for per-person income up to 3 minimum wages.",
+            "properties": {
+              "incomePerPersonCentavos": {
+                "maximum": 486300
+              }
+            }
+          },
+          "section": "maybe",
+          "reason": "Você terminou o ensino médio, não tem faculdade e a renda por pessoa é de até R$ 4.863 (3 salários mínimos). Depende da nota: média de 450 no Enem e redação acima de zero.",
+          "nextStep": "Faça o Enem e se inscreva no ProUni pelo Portal Único de Acesso ao Ensino Superior, nas datas do MEC.",
+          "estimate": {
+            "type": "variable",
+            "headline": "Bolsa de 50% na faculdade",
+            "detail": "Não entra na soma porque depende do curso e da faculdade: a bolsa paga metade da mensalidade."
+          }
+        }
+      ],
+      "otherwise": {
+        "section": "no",
+        "reason": "A renda por pessoa passa de R$ 4.863 (3 salários mínimos).",
+        "nextStep": "Se a renda da casa diminuir, tente o ProUni."
+      }
+    },
+    {
+      "id": "abono-salarial",
+      "name": "Abono salarial (PIS/Pasep)",
+      "source": "https://www.gov.br/trabalho-e-emprego/pt-br/servicos/trabalhador/abono-salarial",
+      "cases": [
+        {
+          "when": {
+            "$comment": "MTE, 2026 calendar: base year 2024, average pay up to R$ 2.766, at least 30 days worked, PIS/Pasep for 5+ years. Value: minimum wage / 12 x months worked.",
+            "properties": {
+              "formalWork2024": {
+                "const": "up-to-limit"
+              }
+            }
+          },
+          "section": "yes",
+          "reason": "Você trabalhou com carteira assinada em 2024 ganhando, em média, até R$ 2.766 por mês. Também é preciso ter PIS ou Pasep há pelo menos 5 anos.",
+          "nextStep": "Consulte e saque pelo app Carteira de Trabalho Digital ou pelo gov.br. O abono de 2026 fica disponível até 30/12/2026.",
+          "estimate": {
+            "type": "variable",
+            "headline": "Até R$ 1.621 por ano",
+            "detail": "Não entra na soma porque é pago uma vez por ano e depende dos meses trabalhados em 2024: salário mínimo ÷ 12 × meses trabalhados, ou seja, R$ 136 por mês trabalhado, até R$ 1.621 por 12 meses."
+          }
+        },
+        {
+          "when": {
+            "properties": {
+              "formalWork2024": {
+                "const": "over-limit"
+              }
+            }
+          },
+          "section": "no",
+          "reason": "Em 2024, a sua média passou de R$ 2.766 por mês, o limite do abono pago em 2026.",
+          "nextStep": "Nada a fazer neste programa agora."
+        }
+      ],
+      "otherwise": {
+        "section": "no",
+        "reason": "É para quem trabalhou com carteira assinada em 2024.",
+        "nextStep": "Se trabalhar com carteira assinada, confira o abono no app Carteira de Trabalho Digital."
       }
     },
     {
@@ -499,6 +840,17 @@ const QUESTIONS = [
     ],
   },
   {
+    id: 'schooling',
+    kind: 'choice',
+    title: 'Você já terminou o ensino médio?',
+    help: 'Vale escola pública ou particular, supletivo ou EJA.',
+    options: [
+      { value: 'no', label: 'Não' },
+      { value: 'high-school', label: 'Sim' },
+      { value: 'college-degree', label: 'Sim, e também tenho diploma de faculdade' },
+    ],
+  },
+  {
     id: 'dismissal',
     kind: 'choice',
     title: 'Você perdeu um emprego com carteira assinada, sem justa causa?',
@@ -507,6 +859,18 @@ const QUESTIONS = [
       { value: 'no', label: 'Não' },
       { value: 'up-to-120-days', label: 'Sim, há 120 dias ou menos' },
       { value: 'over-120-days', label: 'Sim, há mais de 120 dias' },
+    ],
+  },
+  {
+    id: 'formalWork2024',
+    kind: 'choice',
+    title: 'Em 2024, você trabalhou com carteira assinada?',
+    help: 'Vale também servidor público. Pode ter sido só um mês: pense na média do salário.',
+    // R$ 2.766 is the abono salarial limit for the 2026 payments (base year 2024), as in regras.json.
+    options: [
+      { value: 'no', label: 'Não' },
+      { value: 'up-to-limit', label: 'Sim, ganhando até R$ 2.766 por mês' },
+      { value: 'over-limit', label: 'Sim, ganhando mais de R$ 2.766 por mês' },
     ],
   },
   {
@@ -524,6 +888,16 @@ const QUESTIONS = [
     kind: 'choice',
     title: 'Você tem CNPJ de MEI?',
     help: 'MEI é o microempreendedor individual.',
+    options: [
+      { value: false, label: 'Não' },
+      { value: true, label: 'Sim' },
+    ],
+  },
+  {
+    id: 'ownsHome',
+    kind: 'choice',
+    title: 'Alguém da sua casa tem casa ou apartamento próprio?',
+    help: 'Conta também quem ainda está pagando o financiamento.',
     options: [
       { value: false, label: 'Não' },
       { value: true, label: 'Sim' },
@@ -553,9 +927,12 @@ const FACTS = {
   incomePerPersonCentavos: { comparisons: ['maximum', 'exclusiveMinimum'] },
   age: { comparisons: NUMBER_COMPARISONS },
   study: { values: choiceValues('study') },
+  schooling: { values: choiceValues('schooling') },
   dismissal: { values: choiceValues('dismissal') },
+  formalWork2024: { values: choiceValues('formalWork2024') },
   disability: { values: choiceValues('disability') },
   mei: { values: choiceValues('mei') },
+  ownsHome: { values: choiceValues('ownsHome') },
 };
 
 // ---------- Pure logic: options, facts and rules (no DOM) ----------
@@ -574,9 +951,12 @@ function deriveFacts(answers) {
     incomePerPersonCentavos: ceilDiv(answers.totalIncomeCentavos, answers.people),
     age: answers.age,
     study: answers.study,
+    schooling: answers.schooling,
     dismissal: answers.dismissal,
+    formalWork2024: answers.formalWork2024,
     disability: answers.disability,
     mei: answers.mei,
+    ownsHome: answers.ownsHome,
   };
 }
 
@@ -780,6 +1160,13 @@ function checkPositive(value, path) {
 
 function checkEstimate(estimate, path) {
   checkObject(estimate, path);
+  // "variable": the value depends on the user (medicine, trips, the house), so it is shown with an
+  // explanation of how it is calculated and never added to the monthly total.
+  if (estimate.type === 'variable') {
+    checkText(estimate.headline, path + '.headline');
+    checkText(estimate.detail, path + '.detail');
+    return;
+  }
   if (!Object.hasOwn(QUALIFIERS, estimate.qualifier)) {
     throw new RulesError(path + '.qualifier: expected ' + Object.keys(QUALIFIERS).join(', '));
   }
@@ -794,7 +1181,7 @@ function checkEstimate(estimate, path) {
   } else if (estimate.type === 'gas') {
     checkPositive(estimate.cylindersPerYear, path + '.cylindersPerYear');
   } else {
-    throw new RulesError(path + '.type: expected fixed, energy or gas');
+    throw new RulesError(path + '.type: expected fixed, energy, gas or variable');
   }
 }
 
@@ -912,8 +1299,9 @@ function estimateAmount(estimate, prices) {
 // Only recurring values of "yes" programs add up to the monthly total. Time-limited values and
 // "maybe" programs are listed apart, so the total does not promise what may not come.
 function estimateSummary(groups, prices) {
+  const isPriced = (item) => item.estimate !== null && item.estimate.type !== 'variable';
   const rows = (items) => items
-    .filter((item) => item.estimate !== null)
+    .filter(isPriced)
     .map((item) => ({
       name: item.name,
       qualifier: item.estimate.qualifier,
@@ -926,6 +1314,10 @@ function estimateSummary(groups, prices) {
     monthly,
     temporary: yes.filter((row) => row.duration !== null),
     ifApproved: rows(groups.maybe),
+    // Available without a fixed value: listed with how the value is calculated, outside the total.
+    unpriced: ['yes', 'maybe'].flatMap((section) => groups[section]
+      .filter((item) => item.estimate !== null && item.estimate.type === 'variable')
+      .map((item) => ({ name: item.name, headline: item.estimate.headline, detail: item.estimate.detail, section }))),
     totalCentavos: monthly.reduce((sum, row) => sum + row.monthlyCentavos, 0),
   };
 }
@@ -1064,6 +1456,10 @@ function screenFor(step) {
   return step === RESULTS_STEP ? resultsScreen() : questionScreen(step);
 }
 
+function goHome() {
+  location.hash = hashForStep(INTRO_STEP);
+}
+
 function questionScreen(step) {
   const question = QUESTIONS[step];
   const options = optionsFor(question, state.cuts, state.answers);
@@ -1082,9 +1478,8 @@ function questionScreen(step) {
   help.hidden = question.help === '';
 
   const back = fragment.querySelector('.back');
-  // Hidden but still taking space, so the progress bar does not move on the first question.
-  back.classList.toggle('invisible', step === 0);
-  back.addEventListener('click', () => history.back());
+  // The first question goes back to the intro; the others go back one step.
+  back.addEventListener('click', () => (step === 0 ? goHome() : history.back()));
 
   const fieldset = fragment.querySelector('.options');
   fieldset.classList.toggle('options-grid', question.kind === 'people');
@@ -1187,7 +1582,7 @@ function resultsScreen() {
   return fragment;
 }
 
-const EARNINGS_PARTS = ['monthly', 'temporary', 'ifApproved'];
+const EARNINGS_PARTS = ['monthly', 'temporary', 'ifApproved', 'unpriced'];
 
 function showEarnings(card, summary) {
   if (EARNINGS_PARTS.every((part) => summary[part].length === 0)) {
@@ -1208,6 +1603,11 @@ function showEarnings(card, summary) {
 function earningsRow(row) {
   const node = cloneTemplate('tpl-earnings-row').firstElementChild;
   node.querySelector('.earnings-name').textContent = row.name;
+  if (row.headline !== undefined) {
+    node.querySelector('.earnings-value').textContent = row.section === 'maybe' ? row.headline + ' (se aprovado)' : row.headline;
+    node.querySelector('.earnings-detail').textContent = row.detail;
+    return node;
+  }
   node.querySelector('.earnings-value').textContent = QUALIFIERS[row.qualifier] + ' ' + formatMoney(row.monthlyCentavos) + '/mês';
   node.querySelector('.earnings-detail').textContent = row.duration === null ? row.detail : row.detail + ' ' + row.duration;
   return node;
@@ -1251,6 +1651,7 @@ async function start() {
   // Delegated, so the intro buttons work on the static intro and on its copies, even before the rules load.
   document.getElementById('tela').addEventListener('click', (event) => {
     if (event.target.closest('[data-start]') !== null) location.hash = hashForStep(0);
+    if (event.target.closest('[data-home]') !== null) goHome();
     if (event.target.closest('[data-scroll-more]') !== null) {
       const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       document.getElementById('saiba-mais').scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
