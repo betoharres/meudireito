@@ -12,6 +12,8 @@ import { PAGES, UPDATED, UPDATED_LABEL } from './benefit-pages.mjs';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://meudedireito.netlify.app/';
 const BRAND = 'Meu De Direito';
+// Bump the version when og-image.png changes: social networks cache the image by its URL.
+const OG_IMAGE = SITE + 'og-image.png?v=2';
 
 const escapeHtml = (text) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 // JSON inside <script>: escape "<" so the text can never close the tag.
@@ -83,14 +85,14 @@ function head({ title, description, url, type }) {
     <meta property="og:title" content="${escapeHtml(title)}" />
     <meta property="og:description" content="${escapeHtml(description)}" />
     <meta property="og:url" content="${url}" />
-    <meta property="og:image" content="${SITE}og-image.png" />
+    <meta property="og:image" content="${OG_IMAGE}" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${escapeHtml(title)}" />
     <meta name="twitter:description" content="${escapeHtml(description)}" />
-    <meta name="twitter:image" content="${SITE}og-image.png" />
+    <meta name="twitter:image" content="${OG_IMAGE}" />
     <meta name="color-scheme" content="only light" />
     <meta name="theme-color" content="#f2f2f7" />
     <meta name="referrer" content="no-referrer" />
@@ -155,7 +157,7 @@ function pageHtml(page) {
         datePublished: UPDATED,
         dateModified: UPDATED,
         mainEntityOfPage: url,
-        image: `${SITE}og-image.png`,
+        image: OG_IMAGE,
         author: { '@type': 'Organization', name: BRAND, url: SITE },
         publisher: { '@type': 'Organization', name: BRAND, url: SITE, logo: { '@type': 'ImageObject', url: `${SITE}apple-touch-icon.png` } },
         citation: page.sources.map((source) => source.url),
