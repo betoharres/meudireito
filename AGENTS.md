@@ -49,11 +49,11 @@ Follow by default. Yield only to higher tiers.
 
 ---
 
-# Meu Direito
+# Meu De Direito
 
 The rules below extend the defaults above for this project and override them where they conflict. When in doubt, ask instead of guessing.
 
-Meu Direito is a single, self-contained HTML file. It asks the user a series of questions, one per screen (onboarding style), then lists the government assistance programs they may be entitled to and how to apply for each. There is no backend: everything runs in the browser and the answers never leave the device. The UI is in Brazilian Portuguese (pt-BR).
+Meu De Direito is a single, self-contained HTML file. It asks the user a series of questions, one per screen (onboarding style), then lists the government assistance programs they may be entitled to and how to apply for each. There is no backend: everything runs in the browser and the answers never leave the device. The UI is in Brazilian Portuguese (pt-BR).
 
 ## Scope
 

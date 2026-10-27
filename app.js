@@ -1,6 +1,6 @@
 'use strict';
 
-// Meus Benefícios: questionnaire, rules engine and screens.
+// Meu De Direito: questionnaire, rules engine and screens.
 // A classic script (not an ES module) so the site also works when index.html is opened from file://.
 
 // ---------- Data ----------
@@ -23,32 +23,35 @@ const EMBEDDED_RULES = {
       "cases": [
         {
           "when": {
-            "anyOf": [
-              {
-                "properties": {
-                  "incomePerPersonCentavos": {
-                    "maximum": 81050
-                  }
-                }
-              },
-              {
-                "properties": {
-                  "totalIncomeCentavos": {
-                    "maximum": 486300
-                  }
-                }
+            "$comment": "MDS: families with income up to half a minimum wage per person; above that only when a program requires CadÚnico.",
+            "properties": {
+              "incomePerPersonCentavos": {
+                "maximum": 81050
               }
-            ]
+            }
           },
           "section": "yes",
-          "reason": "A renda da sua casa está no limite: até R$ 810,50 por pessoa ou até R$ 4.863 no total.",
-          "nextStep": "Vá ao CRAS com CPF e comprovante de endereço."
+          "reason": "A renda por pessoa da sua casa é de até meio salário mínimo (R$ 810,50), o limite do Cadastro Único.",
+          "nextStep": "Vá ao CRAS ou ao posto do Cadastro Único da sua cidade com os documentos das pessoas da casa."
+        },
+        {
+          "when": {
+            "$comment": "Above half a minimum wage the family can register when a program requires it: the Desconto Social de luz (up to 1 minimum wage per person) does.",
+            "properties": {
+              "incomePerPersonCentavos": {
+                "maximum": 162100
+              }
+            }
+          },
+          "section": "yes",
+          "reason": "A renda por pessoa passa de R$ 810,50, mas é de até R$ 1.621: você pode se cadastrar porque o Desconto Social de luz exige o CadÚnico.",
+          "nextStep": "Vá ao CRAS ou ao posto do Cadastro Único da sua cidade e diga que é para o Desconto Social de luz."
         }
       ],
       "otherwise": {
         "section": "no",
-        "reason": "A renda passa dos dois limites: R$ 810,50 por pessoa e R$ 4.863 no total.",
-        "nextStep": "Se a renda da casa diminuir, procure o CRAS para se cadastrar."
+        "reason": "A renda por pessoa passa de meio salário mínimo (R$ 810,50) e nenhum programa daqui exige o cadastro nessa faixa.",
+        "nextStep": "Se algum programa que você for pedir exigir o CadÚnico, o CRAS pode fazer o cadastro."
       }
     },
     {
@@ -408,25 +411,12 @@ const EMBEDDED_RULES = {
           "section": "yes",
           "reason": "A renda por pessoa é de até R$ 810,50, o limite da lei para concursos federais.",
           "nextStep": "Faça o CadÚnico no CRAS. Na inscrição do concurso, peça a isenção com o seu NIS."
-        },
-        {
-          "when": {
-            "$comment": "Enters CadÚnico by total income only; the federal law asks for income per person. Depends on each edital.",
-            "properties": {
-              "totalIncomeCentavos": {
-                "maximum": 486300
-              }
-            }
-          },
-          "section": "maybe",
-          "reason": "Sua casa entra no CadÚnico pela renda total, mas a lei federal pede renda por pessoa de até R$ 810,50.",
-          "nextStep": "Leia as regras de isenção no edital do concurso."
         }
       ],
       "otherwise": {
         "section": "no",
-        "reason": "A renda passa do limite do CadÚnico.",
-        "nextStep": "Se a renda diminuir, faça o CadÚnico no CRAS."
+        "reason": "A lei federal exige renda por pessoa de até meio salário mínimo (R$ 810,50).",
+        "nextStep": "Concursos estaduais e municipais podem ter regras próprias: leia o edital."
       }
     },
     {
