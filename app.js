@@ -1363,6 +1363,7 @@ const state = {
   answers: {},
   renderedHash: null,
   renderedStep: null,
+  finishTimer: null,
 };
 
 function hashForStep(step) {
@@ -1438,6 +1439,8 @@ function render(navigated) {
   const onStep = step === INTRO_STEP ? INTRO_HASHES.includes(location.hash) : location.hash === hashForStep(step);
   if (!onStep) location.replace(hashForStep(step));
   state.renderedHash = onStep ? location.hash : hashForStep(step);
+  // Leaving the last question during the finish animation cancels the jump to the results.
+  clearTimeout(state.finishTimer);
   const transition = !navigated ? null : step >= state.renderedStep ? 'forward' : 'back';
   const previousStep = state.renderedStep;
   state.renderedStep = step;
@@ -1445,6 +1448,8 @@ function render(navigated) {
   try {
     showScreen(screenFor(step), transition);
     cheerMascot(step, transition);
+    // The results are on screen; forget the answers so a new round starts with nothing selected.
+    if (step === RESULTS_STEP) state.answers = {};
     animateProgress(step, previousStep, transition);
     revealOnScroll(document.getElementById('tela'));
   } catch (error) {
@@ -1458,6 +1463,7 @@ function screenFor(step) {
   return step === RESULTS_STEP ? resultsScreen() : questionScreen(step);
 }
 
+// The bar shows the questions already answered: empty on the first, full only when the quiz ends.
 function percent(answered) {
   return (answered / QUESTIONS.length) * 100 + '%';
 }
@@ -1466,9 +1472,33 @@ function percent(answered) {
 function animateProgress(step, previousStep, transition) {
   const bar = document.querySelector('#tela .progress');
   if (bar === null || transition !== 'forward') return;
-  const answeredBefore = previousStep === INTRO_STEP ? 0 : previousStep + 1;
-  bar.style.setProperty('--progress-from', percent(answeredBefore));
+  bar.style.setProperty('--progress-from', percent(previousStep === INTRO_STEP ? 0 : previousStep));
   bar.classList.add('is-advancing');
+}
+
+const FINISH_DELAY_MS = 1500;
+// Where the sparkles appear along the bar (left, as a fraction of its width) and how far up or down they fly.
+const SPARKLES = [[0.15, -14], [0.32, 12], [0.5, -16], [0.66, 10], [0.82, -12], [0.96, 14], [0.98, -8]];
+
+// Last answer: the bar fills up with sparkles, then the results open after a short pause.
+function finishQuiz(form) {
+  form.querySelector('button[type="submit"]').disabled = true;
+  form.querySelector('.options').disabled = true;
+  const bar = form.querySelector('.progress');
+  bar.style.setProperty('--progress-from', percent(QUESTIONS.length - 1));
+  bar.style.setProperty('--progress-to', percent(QUESTIONS.length));
+  bar.classList.remove('is-advancing');
+  bar.classList.add('is-finishing');
+  SPARKLES.forEach(([at, y], index) => {
+    const sparkle = document.createElement('span');
+    sparkle.className = 'sparkle';
+    sparkle.style.setProperty('--at', at * 100 + '%');
+    sparkle.style.setProperty('--y', y + 'px');
+    sparkle.style.setProperty('--delay', 350 + index * 70 + 'ms');
+    bar.append(sparkle);
+  });
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  state.finishTimer = setTimeout(() => { location.hash = hashForStep(RESULTS_STEP); }, reduced ? 300 : FINISH_DELAY_MS);
 }
 
 function goHome() {
@@ -1484,7 +1514,7 @@ function questionScreen(step) {
 
   fragment.querySelector('.step-number').textContent = String(step + 1);
   fragment.querySelector('.step-total').textContent = String(QUESTIONS.length);
-  fragment.querySelector('.progress').style.setProperty('--progress-to', percent(step + 1));
+  fragment.querySelector('.progress').style.setProperty('--progress-to', percent(step));
   fragment.querySelector('.question-art-slot').replaceWith(cloneTemplate('art-' + question.id));
   fragment.querySelector('h1').textContent = question.title;
   const help = fragment.querySelector('.help');
@@ -1523,7 +1553,8 @@ function questionScreen(step) {
     const option = chosen();
     if (option === null) return; // Continuar stays disabled until an option is chosen.
     saveAnswer(question, option.value === MORE_PEOPLE ? counter.count() : option.value);
-    location.hash = hashForStep(step + 1);
+    if (step + 1 === RESULTS_STEP) finishQuiz(form);
+    else location.hash = hashForStep(step + 1);
   });
   return fragment;
 }
