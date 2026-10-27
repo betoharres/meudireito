@@ -108,8 +108,8 @@
           <span class="mascot-slot mascot-slot-hero" data-mascot></span>
           <h1 tabindex="-1">Quais benefícios sociais você tem direito?</h1>
           <p class="hero-lead">
-            Responda 10 perguntas rápidas, e veja todos os seus benefícios em um
-            só lugar
+            Responda 10 perguntas rápidas, e veja alguns dos seus benefícios em
+            um só lugar
           </p>
           <button
             type="button"
@@ -900,8 +900,11 @@
             </svg>
             Voltar
           </button>
-          <progress aria-hidden="true"></progress>
+          <div class="progress" aria-hidden="true">
+            <div class="progress-fill"></div>
+          </div>
         </div>
+        <span class="question-art-slot"></span>
         <p class="progress-text">
           Pergunta <span class="step-number"></span> de
           <span class="step-total"></span>
@@ -921,6 +924,247 @@
         </div>
       </form>
     </template>
+
+    <!-- One illustration per question, shown under the progress bar. The id is art-<question id>. -->
+    <template id="art-people"
+      ><div class="question-art tile-leaf">
+        <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+          <circle class="a-green" cx="14" cy="12" r="6" />
+          <path
+            class="a-green"
+            d="M3 42 V33 C3 26 8 21.5 14 21.5 C20 21.5 25 26 25 33 V42 Z"
+          />
+          <circle class="a-orange" cx="34" cy="12" r="6" />
+          <path
+            class="a-orange"
+            d="M23 42 V33 C23 26 28 21.5 34 21.5 C40 21.5 45 26 45 33 V42 Z"
+          />
+          <circle class="a-line-paper a-red" cx="24" cy="25" r="5.5" />
+          <path
+            class="a-line-paper a-red"
+            d="M14.5 45 V39 C14.5 34.5 18.5 31.5 24 31.5 C29.5 31.5 33.5 34.5 33.5 39 V45 Z"
+          />
+        </svg></div
+    ></template>
+    <template id="art-totalIncomeCentavos"
+      ><div class="question-art tile-mint">
+        <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+          <rect
+            class="a-teal"
+            x="5"
+            y="11"
+            width="31"
+            height="19"
+            rx="3"
+            transform="rotate(-8 20 20)"
+          />
+          <rect class="a-green" x="8" y="17" width="31" height="19" rx="3" />
+          <circle class="a-paper" cx="23.5" cy="26.5" r="4.5" />
+          <circle class="a-paper" cx="12.5" cy="21" r="1.5" />
+          <circle class="a-paper" cx="34.5" cy="32" r="1.5" />
+          <circle class="a-yellow" cx="38" cy="37" r="7" />
+          <circle class="a-line-orange" cx="38" cy="37" r="4" />
+        </svg></div
+    ></template>
+    <template id="art-age"
+      ><div class="question-art tile-peach">
+        <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+          <rect class="a-brown" x="9" y="27" width="30" height="14" rx="3" />
+          <path
+            class="a-paper"
+            d="M9 30 C9 28.3 10.3 27 12 27 H36 C37.7 27 39 28.3 39 30 V31.5 C36 34 33 34 30 31.5 C27 34 24 34 21 31.5 C18 34 15 34 12 31.5 C11 32.5 10 32.5 9 32 Z"
+          />
+          <rect
+            class="a-purple-soft"
+            x="16"
+            y="17"
+            width="3"
+            height="10"
+            rx="1.5"
+          />
+          <rect
+            class="a-purple-soft"
+            x="22.5"
+            y="17"
+            width="3"
+            height="10"
+            rx="1.5"
+          />
+          <rect
+            class="a-purple-soft"
+            x="29"
+            y="17"
+            width="3"
+            height="10"
+            rx="1.5"
+          />
+          <path
+            class="a-orange"
+            d="M17.5 9 C19.6 11.6 19.6 14.6 17.5 15.2 C15.4 14.6 15.4 11.6 17.5 9 Z"
+          />
+          <path
+            class="a-orange"
+            d="M24 9 C26.1 11.6 26.1 14.6 24 15.2 C21.9 14.6 21.9 11.6 24 9 Z"
+          />
+          <path
+            class="a-orange"
+            d="M30.5 9 C32.6 11.6 32.6 14.6 30.5 15.2 C28.4 14.6 28.4 11.6 30.5 9 Z"
+          />
+        </svg></div
+    ></template>
+    <template id="art-study"
+      ><div class="question-art tile-sun">
+        <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+          <path
+            class="a-line a-paper"
+            d="M24 14 C19 10 11 10 6 12 V36 C11 34 19 34 24 38 Z"
+          />
+          <path
+            class="a-line a-paper"
+            d="M24 14 C29 10 37 10 42 12 V36 C37 34 29 34 24 38 Z"
+          />
+          <rect
+            class="a-teal-soft"
+            x="10"
+            y="18"
+            width="10"
+            height="2.5"
+            rx="1.25"
+          />
+          <rect
+            class="a-teal-soft"
+            x="10"
+            y="24"
+            width="8"
+            height="2.5"
+            rx="1.25"
+          />
+          <rect
+            class="a-teal-soft"
+            x="28"
+            y="18"
+            width="10"
+            height="2.5"
+            rx="1.25"
+          />
+          <rect
+            class="a-teal-soft"
+            x="28"
+            y="24"
+            width="10"
+            height="2.5"
+            rx="1.25"
+          />
+        </svg></div
+    ></template>
+    <template id="art-schooling"
+      ><div class="question-art tile-lilac">
+        <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+          <path class="a-ink" d="M3 18 L24 8 L45 18 L24 28 Z" />
+          <path
+            class="a-ink"
+            d="M12 22.5 V32 C12 37 36 37 36 32 V22.5 L24 28 Z"
+          />
+          <path class="a-line-orange" d="M40 20 V31" />
+          <circle class="a-yellow" cx="40" cy="33" r="3" />
+        </svg></div
+    ></template>
+    <template id="art-dismissal"
+      ><div class="question-art tile-sun">
+        <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+          <path
+            class="a-line-brown"
+            d="M18 15 V11.5 C18 10 19 9 20.5 9 H27.5 C29 9 30 10 30 11.5 V15"
+          />
+          <rect class="a-brown" x="7" y="15" width="34" height="24" rx="4" />
+          <rect class="a-brown-dark" x="7" y="24" width="34" height="3" />
+          <rect class="a-yellow" x="21" y="22" width="6" height="7" rx="1.5" />
+        </svg></div
+    ></template>
+    <template id="art-formalWork2024"
+      ><div class="question-art tile-mint">
+        <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+          <rect class="a-teal" x="10" y="5" width="26" height="37" rx="3" />
+          <rect class="a-paper" x="15" y="11" width="16" height="11" rx="1.5" />
+          <rect
+            class="a-teal-soft"
+            x="15"
+            y="27"
+            width="16"
+            height="2.5"
+            rx="1.25"
+          />
+          <rect
+            class="a-teal-soft"
+            x="15"
+            y="32"
+            width="11"
+            height="2.5"
+            rx="1.25"
+          />
+          <circle class="a-green" cx="36" cy="37" r="7.5" />
+          <path class="a-line-paper" d="M32.5 37 L35 39.5 L39.5 34.5" />
+        </svg></div
+    ></template>
+    <template id="art-disability"
+      ><div class="question-art tile-peach">
+        <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+          <path
+            class="a-red"
+            d="M24 41 C12 33 6 26 6 18.5 C6 12.7 10.4 8.5 15.8 8.5 C19.3 8.5 22.3 10.4 24 13.2 C25.7 10.4 28.7 8.5 32.2 8.5 C37.6 8.5 42 12.7 42 18.5 C42 26 36 33 24 41 Z"
+          />
+          <path
+            class="a-line-paper"
+            d="M10 22 H17 L20.5 16 L25 29 L28.5 22 H38"
+          />
+        </svg></div
+    ></template>
+    <template id="art-mei"
+      ><div class="question-art tile-lilac">
+        <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+          <rect
+            class="a-line-purple a-paper"
+            x="9"
+            y="18"
+            width="30"
+            height="22"
+            rx="2"
+          />
+          <path class="a-purple" d="M7 18 L11 9 H37 L41 18 Z" />
+          <rect
+            class="a-purple-soft"
+            x="14"
+            y="26"
+            width="8"
+            height="14"
+            rx="1"
+          />
+          <rect
+            class="a-purple-soft"
+            x="26"
+            y="24"
+            width="9"
+            height="7"
+            rx="1"
+          />
+        </svg></div
+    ></template>
+    <template id="art-ownsHome"
+      ><div class="question-art tile-leaf">
+        <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+          <path class="a-red" d="M4 23 L24 6 L44 23 Z" />
+          <rect
+            class="a-line a-paper"
+            x="10"
+            y="21"
+            width="28"
+            height="21"
+            rx="2"
+          />
+          <rect class="a-teal" x="20" y="29" width="8" height="13" rx="1" />
+          <rect class="a-yellow" x="30" y="25" width="5" height="5" rx="1" />
+        </svg></div
+    ></template>
 
     <template id="tpl-option">
       <label class="option">
@@ -985,7 +1229,16 @@
         <!-- iOS-style navigation bar: the back button names where it goes. -->
         <div class="nav">
           <button type="button" class="back" data-home>
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 4.5 7.5 12l7.5 7.5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path
+                d="M15 4.5 7.5 12l7.5 7.5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
             Início
           </button>
         </div>

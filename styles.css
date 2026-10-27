@@ -21,6 +21,8 @@
   --color-no: #5c5c61;
   --color-no-tint: #ebebf0;
   --shadow-card: 0 1px 3px rgb(0 0 0 / 0.08);
+  --color-progress-shine: rgb(255 255 255 / 0.35);
+  --color-progress-glow: rgb(94 211 196 / 0.9);
 
   /* Mascot: an original parrot, flat and round. The scarf uses the site's accent. */
   --color-mascot-skin: #4cc23a;
@@ -107,6 +109,7 @@
   --mascot-size-hero: 9.5rem;
   --radius-sheet: 1.75rem;
   --program-art: 4rem;
+  --question-art-height: 7rem;
   /* The chosen option grows a little; tiles are smaller, so they grow a bit more. */
   --scale-selected: 1.024;
   --scale-selected-tile: 1.056;
@@ -905,28 +908,28 @@ p.bubble {
 }
 
 /* Moves to its own line when large text leaves it too little room. */
-progress {
-  flex: 1 1 8rem;
-  min-width: 0;
-  height: var(--progress-height);
-  border: 0;
-  border-radius: var(--radius-pill);
-  background: var(--color-fill);
-  overflow: hidden;
-  appearance: none;
+.progress { flex: 1 1 8rem; min-width: 0; height: var(--progress-height); border-radius: var(--radius-pill); background: var(--color-fill); }
+.progress-fill { position: relative; width: var(--progress-to); height: 100%; border-radius: inherit; background: var(--color-accent); }
+/* Shine along the top of the filled part, like Duolingo's bar. */
+.progress-fill::after {
+  content: "";
+  position: absolute;
+  top: 22%;
+  right: var(--space-2);
+  left: var(--space-2);
+  height: 26%;
+  border-radius: inherit;
+  background: var(--color-progress-shine);
 }
-progress::-webkit-progress-bar {
-  background: var(--color-fill);
-}
-progress::-webkit-progress-value {
-  border-radius: var(--radius-pill);
-  background: var(--color-accent);
-}
-progress::-moz-progress-bar {
-  border-radius: var(--radius-pill);
-  background: var(--color-accent);
-}
+/* Step forward: grow from the previous width, then a short glow and a pulse. */
+.progress.is-advancing { animation: progress-pulse 520ms var(--ease-out) 480ms; }
+.progress.is-advancing .progress-fill { animation: progress-grow 480ms var(--ease-out), progress-glow 700ms ease-out 480ms; }
+@keyframes progress-grow { from { width: var(--progress-from); } }
+@keyframes progress-pulse { 0%, 100% { transform: scale(1); } 45% { transform: scale(1.03, 1.6); } }
+@keyframes progress-glow { 0% { box-shadow: 0 0 0 0 var(--color-progress-glow); } 40% { box-shadow: 0 0 10px 3px var(--color-progress-glow); } 100% { box-shadow: 0 0 0 0 transparent; } }
 
+.question-art { display: grid; place-items: center; height: var(--question-art-height); margin-top: var(--space-3); border-radius: var(--radius-card); }
+.question-art svg { width: auto; height: 82%; }
 .progress-text {
   margin: var(--space-4) 0 0;
   color: var(--color-muted);

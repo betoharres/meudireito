@@ -1052,7 +1052,7 @@ function incomeLabel(from, to) {
   if (from === 0 && to === null) return 'Qualquer valor';
   if (from === 0) return 'Até ' + formatMoney(to);
   if (to === null) return 'Mais de ' + formatMoney(from - 1);
-  return 'Mais de ' + formatMoney(from - 1) + ' até ' + formatMoney(to);
+  return 'Entre ' + formatMoney(from - 1) + ' e ' + formatMoney(to);
 }
 
 function ageOptions(cuts) {
@@ -1439,11 +1439,13 @@ function render(navigated) {
   if (!onStep) location.replace(hashForStep(step));
   state.renderedHash = onStep ? location.hash : hashForStep(step);
   const transition = !navigated ? null : step >= state.renderedStep ? 'forward' : 'back';
+  const previousStep = state.renderedStep;
   state.renderedStep = step;
   document.body.classList.toggle('is-intro', step === INTRO_STEP);
   try {
     showScreen(screenFor(step), transition);
     cheerMascot(step, transition);
+    animateProgress(step, previousStep, transition);
     revealOnScroll(document.getElementById('tela'));
   } catch (error) {
     showScreen(cloneTemplate('tpl-error'), transition);
@@ -1454,6 +1456,19 @@ function render(navigated) {
 function screenFor(step) {
   if (step === INTRO_STEP) return state.intro.cloneNode(true);
   return step === RESULTS_STEP ? resultsScreen() : questionScreen(step);
+}
+
+function percent(answered) {
+  return (answered / QUESTIONS.length) * 100 + '%';
+}
+
+// On each step forward the bar grows from where it was, then glows and pulses.
+function animateProgress(step, previousStep, transition) {
+  const bar = document.querySelector('#tela .progress');
+  if (bar === null || transition !== 'forward') return;
+  const answeredBefore = previousStep === INTRO_STEP ? 0 : previousStep + 1;
+  bar.style.setProperty('--progress-from', percent(answeredBefore));
+  bar.classList.add('is-advancing');
 }
 
 function goHome() {
@@ -1469,9 +1484,8 @@ function questionScreen(step) {
 
   fragment.querySelector('.step-number').textContent = String(step + 1);
   fragment.querySelector('.step-total').textContent = String(QUESTIONS.length);
-  const progress = fragment.querySelector('progress');
-  progress.max = QUESTIONS.length;
-  progress.value = step + 1;
+  fragment.querySelector('.progress').style.setProperty('--progress-to', percent(step + 1));
+  fragment.querySelector('.question-art-slot').replaceWith(cloneTemplate('art-' + question.id));
   fragment.querySelector('h1').textContent = question.title;
   const help = fragment.querySelector('.help');
   help.textContent = question.help;
