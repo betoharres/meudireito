@@ -110,6 +110,9 @@
   --mascot-size: 5.5rem;
   --mascot-size-large: 7.5rem;
   --mascot-size-hero: 9.5rem;
+  --firework-spark-width: 0.1875rem;
+  --firework-spark-length: 0.625rem;
+  --firework-reach: 1.75rem;
   --radius-sheet: 1.75rem;
   --program-art: 4rem;
   --icon-tile-sm: 2.75rem;
@@ -124,6 +127,8 @@
   --duration-pop: 380ms;
   --duration-screen: 260ms;
   --duration-hop: 650ms;
+  --duration-tada: 1s;
+  --duration-firework: 900ms;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   /* Overshoots a little before settling: the "bounce" when a button is released. */
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -260,6 +265,7 @@ h1 {
 }
 /* The slot keeps the mascot's space before app.js draws it, so nothing jumps. */
 .mascot-slot {
+  position: relative;
   flex: none;
   display: block;
   width: var(--mascot-size);
@@ -459,6 +465,56 @@ p.bubble {
 }
 .mascot.is-waving .mascot-hat {
   animation: mascot-hat-tip 1.4s ease-in-out 300ms;
+}
+/* Results of R$ 500 or more: jumps while waving, and the hat follows the jumps. */
+.mascot.is-celebrating.is-waving .mascot-hat {
+  animation: mascot-hat-hop var(--duration-hop) var(--ease-out) 140ms 2;
+}
+
+/* Fireworks around the mascot (results of R$ 500 or more): each burst throws sparks out in a circle. */
+.fireworks {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.firework {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+}
+.firework:nth-child(3n + 1) {
+  --firework-color: var(--color-sparkle);
+}
+.firework:nth-child(3n + 2) {
+  --firework-color: var(--color-mascot-tail-2);
+}
+.firework:nth-child(3n) {
+  --firework-color: var(--color-progress-bright);
+}
+.firework-spark {
+  position: absolute;
+  left: calc(var(--firework-spark-width) / -2);
+  top: calc(var(--firework-spark-length) / -2);
+  width: var(--firework-spark-width);
+  height: var(--firework-spark-length);
+  border-radius: var(--radius-pill);
+  background: var(--firework-color);
+  opacity: 0;
+  animation: firework-burst var(--duration-firework) var(--ease-out) var(--delay) both;
+}
+@keyframes firework-burst {
+  0% {
+    opacity: 1;
+    transform: rotate(var(--angle)) translateY(0) scaleY(0.3);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--angle)) translateY(calc(-1 * var(--firework-reach))) scaleY(1);
+  }
 }
 
 @keyframes mascot-breathe {
@@ -1344,6 +1400,14 @@ a:focus-visible,
   line-height: 1.1;
   letter-spacing: -0.02em;
 }
+/* Inline-block so it can wiggle; equal-width digits keep the count from jittering. */
+.earnings-sum {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+}
+.earnings-sum.is-tada {
+  animation: tada var(--duration-tada) ease-in-out;
+}
 .earnings-unit {
   font-size: var(--text-title3);
   font-weight: 700;
@@ -1798,6 +1862,30 @@ a.button {
   }
   65% {
     transform: scale(0.98);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+/* "Tada": shrinks a little, wiggles while grown, then settles. Plays when the results total stops counting. */
+@keyframes tada {
+  0% {
+    transform: scale(1);
+  }
+  10%,
+  20% {
+    transform: scale(0.9) rotate(-3deg);
+  }
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: scale(1.1) rotate(3deg);
+  }
+  40%,
+  60%,
+  80% {
+    transform: scale(1.1) rotate(-3deg);
   }
   100% {
     transform: scale(1);

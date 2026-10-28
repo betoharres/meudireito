@@ -1352,7 +1352,9 @@
           <div class="earnings-total">
             <p class="earnings-label">Você pode ganhar cerca de</p>
             <p class="earnings-amount">
-              <span class="earnings-sum"></span>
+              <!-- The visible amount counts up; screen readers get the final value from the hidden copy. -->
+              <span class="earnings-sum" aria-hidden="true"></span>
+              <span class="earnings-sum-text visually-hidden"></span>
               <span class="earnings-unit">por mês</span>
             </p>
             <p class="earnings-caption">

@@ -1394,7 +1394,7 @@ function placeMascots(root) {
   for (const slot of root.querySelectorAll('[data-mascot]')) slot.replaceChildren(cloneTemplate('tpl-mascot'));
 }
 
-// Waves on the intro, hops on every step forward and celebrates on the results.
+// Waves on the intro, hops on every step forward and smiles on the results (cheerTotal adds more there).
 function cheerMascot(step, transition) {
   const mascot = document.querySelector('#tela .mascot');
   if (mascot === null) return;
@@ -1402,7 +1402,6 @@ function cheerMascot(step, transition) {
     mascot.classList.add('is-waving');
   } else if (step === RESULTS_STEP) {
     mascot.classList.add('is-happy');
-    if (transition === 'forward') mascot.classList.add('is-celebrating');
   } else if (transition === 'forward') {
     mascot.classList.add('is-hopping');
   }
@@ -1628,13 +1627,92 @@ function showEarnings(card, summary) {
   }
   card.querySelector('.earnings-total').hidden = summary.totalCentavos === 0;
   // Whole reais, rounded down.
-  card.querySelector('.earnings-sum').textContent = formatMoney(floorDiv(summary.totalCentavos, 100) * 100);
+  const totalReais = floorDiv(summary.totalCentavos, 100);
+  card.querySelector('.earnings-sum-text').textContent = formatMoney(totalReais * 100);
+  countUp(card.querySelector('.earnings-sum'), totalReais, () => cheerTotal(totalReais));
   for (const part of EARNINGS_PARTS) {
     const container = card.querySelector('[data-part="' + part + '"]');
     container.hidden = summary[part].length === 0;
     const list = container.querySelector('.earnings-list');
     for (const row of summary[part]) list.append(earningsRow(row));
   }
+}
+
+// Starts once the results screen has slid in.
+const COUNT_UP_DELAY_MS = 300;
+const COUNT_UP_MS = 1200;
+
+// The total counts up from R$ 0 in whole reais, slowing down at the end, then plays "tada" and calls done.
+// Each frame uses integer arithmetic: elapsed time in thousandths, a cubic ease-out, rounded down.
+function countUp(node, totalReais, done) {
+  const final = formatMoney(totalReais * 100);
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  node.textContent = reduced ? final : formatMoney(0);
+  setTimeout(() => {
+    if (!node.isConnected) return;
+    if (reduced) {
+      done();
+      return;
+    }
+    // Reserves the final width so "por mês" does not shift while the digits grow.
+    node.textContent = final;
+    node.style.minWidth = node.getBoundingClientRect().width + 'px';
+    let start = null;
+    const frame = (now) => {
+      if (!node.isConnected) return;
+      start ??= now;
+      const permille = Math.min(1000, Math.floor(((now - start) * 1000) / COUNT_UP_MS));
+      const remaining = 1000 - permille;
+      const eased = 1000 - floorDiv(remaining * remaining * remaining, 1000000);
+      node.textContent = formatMoney(floorDiv(totalReais * eased, 1000) * 100);
+      if (permille < 1000) {
+        requestAnimationFrame(frame);
+        return;
+      }
+      node.style.minWidth = '';
+      node.classList.add('is-tada');
+      done();
+    };
+    requestAnimationFrame(frame);
+  }, COUNT_UP_DELAY_MS);
+}
+
+// The mascot already smiles on the results; the bigger the monthly total, the more it celebrates.
+const WAVE_FROM_REAIS = 100;
+const PARTY_FROM_REAIS = 500;
+
+function cheerTotal(totalReais) {
+  const mascot = document.querySelector('#tela .mascot');
+  if (mascot === null) return;
+  if (totalReais >= WAVE_FROM_REAIS) mascot.classList.add('is-waving');
+  if (totalReais < PARTY_FROM_REAIS) return;
+  mascot.classList.add('is-celebrating');
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) launchFireworks(mascot.closest('.mascot-slot'));
+}
+
+// Where each firework bursts around the mascot (left and top, as fractions of its box) and when, in ms.
+const FIREWORKS = [[0.1, 0.05, 0], [0.95, 0.1, 160], [0.5, -0.1, 320], [1.1, 0.6, 500], [0.05, 0.6, 650], [0.65, 0.3, 820]];
+const FIREWORK_SPARKS = 10;
+
+function launchFireworks(slot) {
+  const fireworks = document.createElement('span');
+  fireworks.className = 'fireworks';
+  fireworks.setAttribute('aria-hidden', 'true');
+  for (const [x, y, delay] of FIREWORKS) {
+    const burst = document.createElement('span');
+    burst.className = 'firework';
+    burst.style.setProperty('--x', x * 100 + '%');
+    burst.style.setProperty('--y', y * 100 + '%');
+    burst.style.setProperty('--delay', delay + 'ms');
+    for (let index = 0; index < FIREWORK_SPARKS; index++) {
+      const spark = document.createElement('span');
+      spark.className = 'firework-spark';
+      spark.style.setProperty('--angle', (index * 360) / FIREWORK_SPARKS + 'deg');
+      burst.append(spark);
+    }
+    fireworks.append(burst);
+  }
+  slot.append(fireworks);
 }
 
 function earningsRow(row) {
