@@ -194,7 +194,6 @@ ${jsonLd(ld)}
       </div>
       <p class="article-lead">${escapeHtml(page.lead)}</p>
       <p class="article-meta">Atualizado em ${UPDATED_LABEL} · Site independente, não é do governo</p>
-      <a class="button button-primary article-start" href="/">Descobrir se tenho direito</a>
 
       <div class="article-sheet">
         <section class="answer-box" aria-labelledby="resposta-rapida">
