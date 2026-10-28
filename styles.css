@@ -21,6 +21,7 @@
   --color-no: #5c5c61;
   --color-no-tint: #ebebf0;
   --shadow-card: 0 1px 3px rgb(0 0 0 / 0.08);
+  --shadow-card-raised: 0 6px 16px rgb(0 0 0 / 0.12);
   --color-progress-shine: rgb(255 255 255 / 0.35);
   --color-progress-glow: rgb(94 211 196 / 0.9);
   --color-progress-bright: #1bbfad;
@@ -96,6 +97,8 @@
   --border-raised: 4px;
   --focus-ring: 3px;
   --touch: 2.75rem;
+  --chevron-size: 0.5rem;
+  --card-lift: -2px;
   --option-height: 3.5rem;
   --tile-height: 4rem;
   --button-height: 3.25rem;
@@ -1648,7 +1651,66 @@ a.brand {
 .program-link {
   display: inline-flex;
   align-items: center;
+  gap: var(--space-2);
   min-height: var(--touch);
+}
+
+/* Home cards with a page: a raised surface the whole of which opens the page. The link is the card's
+   only interactive element; its ::before stretches over the card, so a tap anywhere follows it. */
+.program-card:has(.program-link) {
+  position: relative;
+  border: 1px solid var(--color-separator);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  /* Replaces the list from .js .reveal, so its opacity and transform transitions are repeated here. */
+  transition:
+    opacity 500ms ease-out,
+    transform 600ms var(--ease-out),
+    translate var(--duration-screen) var(--ease-out),
+    scale var(--duration-press) ease-out,
+    box-shadow var(--duration-screen) var(--ease-out),
+    border-color var(--duration-screen) var(--ease-out);
+}
+.program-card .program-link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+/* Chevron drawn with borders, so screen readers have no character to read. */
+.program-card .program-link::after {
+  content: "";
+  flex: none;
+  width: var(--chevron-size);
+  height: var(--chevron-size);
+  border-top: var(--border) solid currentColor;
+  border-right: var(--border) solid currentColor;
+  transform: rotate(45deg);
+  transition: translate var(--duration-screen) var(--ease-out);
+}
+/* The ring goes around the whole card, the area the link covers. */
+.program-card .program-link:focus-visible {
+  outline: none;
+}
+.program-card:has(.program-link:focus-visible) {
+  outline: var(--focus-ring) solid var(--color-accent);
+  outline-offset: var(--border);
+}
+.program-card:has(.program-link:active) {
+  scale: var(--scale-option-pressed);
+}
+@media (hover: hover) {
+  .program-card:has(.program-link:hover) {
+    translate: 0 var(--card-lift);
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-card-raised);
+  }
+  .program-card .program-link:hover {
+    text-decoration: underline;
+  }
+  .program-card .program-link:hover::after {
+    translate: var(--space-1) 0;
+  }
 }
 
 .article {
