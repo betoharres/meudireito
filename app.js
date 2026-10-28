@@ -1435,6 +1435,8 @@ function render(navigated) {
   const previousStep = state.renderedStep;
   state.renderedStep = step;
   document.body.classList.toggle('is-intro', step === INTRO_STEP);
+  // The browser bar (status bar on Android) takes the page's top color, set on html in styles.css.
+  document.querySelector('meta[name="theme-color"]').content = getComputedStyle(document.documentElement).backgroundColor;
   try {
     showScreen(screenFor(step), transition);
     cheerMascot(step, transition);

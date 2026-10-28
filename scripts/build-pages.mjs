@@ -94,7 +94,7 @@ function head({ title, description, url, type }) {
     <meta name="twitter:description" content="${escapeHtml(description)}" />
     <meta name="twitter:image" content="${OG_IMAGE}" />
     <meta name="color-scheme" content="only light" />
-    <meta name="theme-color" content="#f2f2f7" />
+    <meta name="theme-color" content="#d5f4ea" />
     <meta name="referrer" content="no-referrer" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
